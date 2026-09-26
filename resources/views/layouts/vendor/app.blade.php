@@ -15,8 +15,8 @@ $verifiedBadgePopupLabel = isset($moduleType) && $moduleType == 'rental' ? trans
 
 ?>
 {{-- {{ dd($countryCode) }} --}}
-<html dir="{{ $site_direction }}" lang="{{ str_replace('_', '-', app()->getLocale()) }}"
-    class="{{ $site_direction === 'rtl' ? 'active' : '' }}">
+<html dir="{{ $site_direction ?: 'ltr' }}" lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+    class="{{ ($site_direction ?: 'ltr') === 'rtl' ? 'active rtl' : '' }}">
 
 <head>
     <meta charset="utf-8">
@@ -28,6 +28,17 @@ $verifiedBadgePopupLabel = isset($moduleType) && $moduleType == 'rental' ? trans
     <!-- Favicon -->
     @php $logo = \App\Models\BusinessSetting::where(['key' => 'icon'])->first(); @endphp
     <link rel="shortcut icon" href="">
+    @if (($site_direction ?: 'ltr') === 'rtl')
+        <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+        <style>
+            html[dir="rtl"],
+            html[dir="rtl"] body {
+                font-family: 'Cairo', Tahoma, Arial, sans-serif !important;
+                direction: rtl;
+                text-align: right;
+            }
+        </style>
+    @endif
     <link rel="icon" type="image/x-icon"
         href="{{\App\CentralLogics\Helpers::get_full_url('business', $logo?->value ?? '', $logo?->storage[0]?->value ?? 'public', 'favicon')}}">
     <!-- Font -->

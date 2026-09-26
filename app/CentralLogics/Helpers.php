@@ -3329,23 +3329,87 @@ class Helpers
 
     public static function auto_translator($q, $sl, $tl)
     {
-        $response = Http::timeout(5)->get('https://translate.googleapis.com/translate_a/single', [
-            'client' => 'gtx',
-            'ie' => 'UTF-8',
-            'oe' => 'UTF-8',
-            'dt' => 't',
-            'sl' => $sl,
-            'tl' => $tl,
-            'q' => $q,
-        ]);
+        $q = (string) $q;
+        if ($q === '' || $sl === $tl) {
+            return $q;
+        }
+
+        // Skip values that already contain Arabic script.
+        if ($tl === 'ar' && preg_match('/[\x{0600}-\x{06FF}]/u', $q)) {
+            return $q;
+        }
+
+        try {
+            $response = Http::timeout(20)->retry(2, 500)->get('https://translate.googleapis.com/translate_a/single', [
+                'client' => 'gtx',
+                'ie' => 'UTF-8',
+                'oe' => 'UTF-8',
+                'dt' => 't',
+                'sl' => $sl,
+                'tl' => $tl,
+                'q' => $q,
+            ]);
+        } catch (\Throwable) {
+            return $q;
+        }
 
         if (! $response->successful()) {
             return $q;
         }
 
         $data = $response->json();
+        if (! is_array($data[0] ?? null)) {
+            return $q;
+        }
 
-        return $data[0][0][0] ?? $q;
+        $translated = '';
+        foreach ($data[0] as $segment) {
+            if (is_array($segment) && isset($segment[0])) {
+                $translated .= $segment[0];
+            }
+        }
+
+        return $translated !== '' ? $translated : $q;
+    }
+
+    /**
+     * Translate many short strings in one request (newline-delimited).
+     *
+     * @param  array<int, string>  $strings
+     * @return array<int, string>
+     */
+    public static function auto_translator_batch(array $strings, string $sl, string $tl): array
+    {
+        if ($strings === [] || $sl === $tl) {
+            return $strings;
+        }
+
+        // Keep batches short to avoid request timeouts on long UI copy.
+        if (count($strings) > 15) {
+            $out = [];
+            foreach (array_chunk($strings, 15) as $chunk) {
+                $out = array_merge($out, self::auto_translator_batch($chunk, $sl, $tl));
+            }
+
+            return $out;
+        }
+
+        $payload = implode("\n", array_map(static fn ($s) => str_replace(["\r", "\n"], ' ', (string) $s), $strings));
+        $translated = self::auto_translator($payload, $sl, $tl);
+        $parts = preg_split("/\r\n|\n|\r/", $translated) ?: [];
+
+        if (count($parts) !== count($strings)) {
+            // Fallback: translate one-by-one so a mismatch never corrupts the map.
+            $out = [];
+            foreach ($strings as $string) {
+                $out[] = self::auto_translator($string, $sl, $tl);
+                usleep(50000);
+            }
+
+            return $out;
+        }
+
+        return $parts;
     }
 
     public static function language_load()

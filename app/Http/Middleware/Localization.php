@@ -20,13 +20,14 @@ class Localization
     {
         $lang = 'en';
         $direction = 'ltr';
+        $language = null;
         try {
             $language = Helpers::get_business_settings('system_language');
             if ($language) {
                 foreach ($language as $key => $data) {
-                    if ($data['default']) {
+                    if (! empty($data['default'])) {
                         $lang = $data['code'];
-                        $direction = $data['direction'];
+                        $direction = $data['direction'] ?? 'ltr';
                     }
                 }
             }

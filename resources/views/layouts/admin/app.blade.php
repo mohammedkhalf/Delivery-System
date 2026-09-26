@@ -4,8 +4,8 @@
 $country = \App\CentralLogics\Helpers::get_business_settings('country');
 $countryCode = strtolower($country ? $country : 'auto');
 ?>
-<html dir="{{ session()->get('site_direction') }}" lang="{{ str_replace('_', '-', app()->getLocale()) }}"
-    class="{{session()->get('site_direction') === 'rtl' ? 'active' : '' }}">
+<html dir="{{ session()->get('site_direction') ?: 'ltr' }}" lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+    class="{{ (session()->get('site_direction') ?: 'ltr') === 'rtl' ? 'active rtl' : '' }}">
 
 <head>
     <meta charset="utf-8">
@@ -21,6 +21,17 @@ $countryCode = strtolower($country ? $country : 'auto');
         href="{{\App\CentralLogics\Helpers::get_full_url('business', $logo?->value ?? '', $logo?->storage[0]?->value ?? 'public', 'favicon')}}">
     <!-- Font -->
     <link href="{{asset('public/assets/admin/css/fonts.css')}}" rel="stylesheet">
+    @if ((session()->get('site_direction') ?: 'ltr') === 'rtl')
+        <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+        <style>
+            html[dir="rtl"],
+            html[dir="rtl"] body {
+                font-family: 'Cairo', Tahoma, Arial, sans-serif !important;
+                direction: rtl;
+                text-align: right;
+            }
+        </style>
+    @endif
     <!-- CSS Implementing Plugins -->
     <link rel="stylesheet" href="{{asset('public/assets/admin/css/vendor.min.css')}}">
     <link rel="stylesheet" href="{{asset('public/assets/admin/vendor/icon-set/style.css')}}">
