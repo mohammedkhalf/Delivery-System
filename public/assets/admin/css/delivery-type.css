@@ -1,0 +1,125 @@
+.delivery-type-section {
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+}
+
+.delivery-type-section__title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1f2a44;
+    margin: 0 0 14px;
+}
+
+.delivery-type-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.delivery-type-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 22px;
+    border-radius: 10px;
+    background: #F4F6F9;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    margin: 0;
+}
+
+.delivery-type-row:hover {
+    background: #EEF2F7;
+}
+
+.delivery-type-row:has(.delivery-type-radio:checked) {
+    background: #E7EFFD;
+    border-color: rgba(13, 110, 253, 0.25);
+}
+
+.delivery-type-row__main {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.delivery-type-row__radio {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    cursor: pointer;
+    accent-color: #0d6efd;
+    flex-shrink: 0;
+}
+
+.delivery-type-row__name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1f2a44;
+    text-transform: capitalize;
+}
+
+.delivery-type-row__time {
+    font-size: 14px;
+    color: #5b6478;
+    white-space: nowrap;
+}
+
+.delivery-type-row__charge {
+    background: #ffffff;
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #1f2a44;
+    white-space: nowrap;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    flex-shrink: 0;
+}
+
+.delivery-type-options.is-disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.delivery-type-options.is-disabled .delivery-type-row {
+    cursor: not-allowed;
+}
+
+.delivery-type-options.is-disabled .delivery-type-row:hover {
+    background: #F4F6F9;
+}
+
+.delivery-type-note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: rgba(255, 193, 7, 0.12);
+    color: #5b4a00;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.delivery-type-note__icon {
+    color: #d6a800;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+}
+
+@media (max-width: 480px) {
+    .delivery-type-row {
+        padding: 12px 14px;
+    }
+    .delivery-type-row__time {
+        white-space: normal;
+    }
+}

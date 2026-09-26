@@ -1,0 +1,1522 @@
+/* ============================================================
+ * 6amMart admin v2 chrome — scoped under body.v2-chrome
+ * Phase 1: grocery module workspace only.
+ * Translates the navigation prototype to live admin without
+ * touching content area styling beyond positioning offsets.
+ * ============================================================ */
+
+body.v2-chrome {
+    /* Color palette */
+    --v2-bg:#f7faf8;
+    --v2-panel:#ffffff;
+    --v2-border:#eaeeec;
+    --v2-border-strong:#d4dad6;
+    --v2-text:#1a2420;
+    --v2-text-soft:#4f5a54;
+    --v2-text-muted:#818c87;
+    --v2-hover:#f0f3f1;
+    --v2-primary:#107980;
+    --v2-primary-deep:#006161;
+    --v2-primary-tint:#e3f1f2;
+    --v2-primary-tint-strong:#9cd0d3;
+    --v2-module:#107980;
+    --v2-module-deep:#006161;
+    --v2-module-tint:#e3f1f2;
+    --v2-module-tint-strong:#9cd0d3;
+    --v2-accent:#ec1d5d;
+    --v2-shadow-sm:0 1px 2px rgba(15,40,30,.04);
+    --v2-shadow-md:0 6px 18px rgba(15,40,30,.08);
+    --v2-shadow-lg:0 12px 32px rgba(15,40,30,.12);
+    --v2-rail-w:64px;
+    --v2-panel-w:250px;
+    --v2-topbar-h:56px;
+
+    background: var(--v2-bg);
+    /* Hide the legacy chrome wholesale when v2 is active */
+}
+body.v2-chrome #headerMain,
+body.v2-chrome #headerFluid,
+body.v2-chrome #headerDouble,
+body.v2-chrome #sidebarMain,
+body.v2-chrome #sidebarCompact,
+body.v2-chrome .navbar-vertical-aside,
+body.v2-chrome > #header,
+body.v2-chrome > header.navbar:not(.v2-topbar),
+body.v2-chrome .__nav-module {
+    display: none !important;
+}
+
+/* Position the legacy #content area under the v2 rail+panel+topbar.
+   padding-top is zeroed to override theme.minc619.css which reserves space
+   for the legacy 70px header — our topbar is only 56px and margin-top
+   already accounts for it. */
+body.v2-chrome #content,
+body.v2-chrome main#content {
+    margin-left: calc(var(--v2-rail-w) + var(--v2-panel-w)) !important;
+    margin-top: var(--v2-topbar-h) !important;
+    padding-top: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    width: calc(100% - var(--v2-rail-w) - var(--v2-panel-w)) !important;
+    min-height: calc(100vh - var(--v2-topbar-h)) !important;
+}
+
+/* Footer — the HS theme makes it position:fixed and applies
+   `margin-inline-start: 16.25rem` (260px) to clear the legacy sidebar.
+   In v2 we have our own rail+panel, so:
+     - zero the theme's inner margin
+     - push the fixed footer's left past the rail+panel
+     - let it span to the right edge */
+body.v2-chrome .footer {
+    margin-inline-start: 0 !important;
+    margin-left: 0 !important;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+    left: calc(var(--v2-rail-w) + var(--v2-panel-w)) !important;
+    right: 0 !important;
+    width: auto !important;
+    max-width: none !important;
+}
+
+/* Fixed subscription bars (free-trial ended / subscription canceled) — treat
+   them like the v2 footer: start past the rail+panel and span to the right
+   edge instead of covering the sidebar, and reserve bottom space so the page
+   content isn't hidden behind the bar. */
+body.v2-chrome .free-trial {
+    left: calc(var(--v2-rail-w) + var(--v2-panel-w)) !important;
+    right: 0 !important;
+    width: auto !important;
+}
+body.v2-chrome:has(.free-trial) #content,
+body.v2-chrome:has(.free-trial) main#content {
+    padding-bottom: 120px !important;
+}
+[dir="rtl"] body.v2-chrome .free-trial {
+    left: 0 !important;
+    right: calc(var(--v2-rail-w) + var(--v2-panel-w)) !important;
+}
+
+body.v2-chrome [data-lucide] {
+    width: 18px;
+    height: 18px;
+    flex: none;
+    stroke-width: 1.75;
+}
+
+/* ============ Topbar ============ */
+body.v2-chrome .v2-topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    height: var(--v2-topbar-h);
+    background: var(--v2-panel);
+    border-bottom: 1px solid var(--v2-border);
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 8px;
+}
+
+body.v2-chrome .v2-mode-btn {
+    width: 32px; height: 32px;
+    border: none; background: transparent;
+    border-radius: 8px;
+    display: grid; place-items: center;
+    color: var(--v2-text-soft);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+body.v2-chrome .v2-mode-btn:hover { background: var(--v2-hover); color: var(--v2-text); }
+
+body.v2-chrome .v2-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    text-decoration: none;
+    min-width: 0;
+    padding-right: 4px;
+}
+body.v2-chrome .v2-brand-mark {
+    width: auto;
+    height: 32px;
+    max-width: 160px;
+    min-width: 32px;
+    object-fit: contain;
+    border-radius: 6px;
+    display: block;
+}
+body.v2-chrome .v2-brand-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--v2-text);
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+body.v2-chrome .v2-topnav {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-left: 8px;
+    height: var(--v2-topbar-h);
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+}
+body.v2-chrome .v2-ws-tab {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: var(--v2-topbar-h);
+    padding: 0 14px;
+    color: var(--v2-text-soft);
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: color .15s, background .15s;
+}
+body.v2-chrome .v2-ws-tab::after {
+    content: "";
+    position: absolute;
+    left: 14px; right: 14px; bottom: 0;
+    height: 3px;
+    background: transparent;
+    border-radius: 2px 2px 0 0;
+    transition: background .18s;
+}
+body.v2-chrome .v2-ws-tab:hover { background: var(--v2-hover); color: var(--v2-text); text-decoration: none; }
+body.v2-chrome .v2-ws-tab.is-active { color: var(--v2-primary); background: var(--v2-primary-tint); }
+body.v2-chrome .v2-ws-tab.is-active::after { background: var(--v2-primary); }
+body.v2-chrome .v2-ws-tab.v2-ws-tab--module.is-active { color: var(--v2-module-deep); background: var(--v2-module-tint); }
+body.v2-chrome .v2-ws-tab.v2-ws-tab--module.is-active::after { background: var(--v2-module); }
+body.v2-chrome .v2-ws-tab .v2-ws-ico { width: 16px; height: 16px; flex: none; }
+body.v2-chrome .v2-ws-tab .v2-module-pill {
+    margin-left: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    background: #fff;
+    color: var(--v2-module-deep);
+    border: 1px solid var(--v2-module-tint-strong);
+    padding: 1px 6px;
+    border-radius: 5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+}
+body.v2-chrome .v2-ws-tab .v2-module-pill [data-lucide] {
+    width: 10px; height: 10px; color: var(--v2-module);
+}
+
+body.v2-chrome .v2-topbar-spacer { flex: 1; min-width: 8px; }
+
+body.v2-chrome .v2-topbar-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--v2-bg);
+    border: 1px solid var(--v2-border);
+    height: 34px;
+    width: 280px;
+    border-radius: 8px;
+    padding: 0 10px;
+    color: var(--v2-text-soft);
+    cursor: pointer;
+    transition: border-color .15s, box-shadow .15s, background .15s;
+    flex-shrink: 0;
+}
+body.v2-chrome .v2-topbar-search:hover {
+    background: var(--v2-panel);
+    border-color: var(--v2-primary);
+    box-shadow: 0 0 0 3px var(--v2-primary-tint);
+}
+body.v2-chrome .v2-builder-btn {
+    position: relative;
+    overflow: visible;
+    height: 34px;
+    gap: 8px;
+    padding: 0 14px;
+    font-size: 13px;
+    flex-shrink: 0;
+    box-shadow: none;
+}
+body.v2-chrome .v2-builder-btn .website-builder-icon {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+}
+@media (max-width: 575.98px) {
+    body.v2-chrome .v2-builder-btn { padding: 0 9px; }
+}
+/* Demo-mode "Addon" tag floating on top of the vendor Builder button. */
+body.v2-chrome .v2-builder-addon-tag {
+    position: absolute;
+    top: -8px;
+    right: 10px;
+    z-index: 2;
+    padding: 2px 6px;
+    font-size: 9px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--v2-primary, #0d9488);
+    border-radius: 999px;
+    pointer-events: none;
+}
+body.v2-chrome .v2-topbar-search .v2-search-placeholder {
+    flex: 1;
+    text-align: left;
+    font-size: 13px;
+    color: var(--v2-text-muted);
+}
+body.v2-chrome .v2-topbar-search kbd {
+    border: 1px solid var(--v2-border);
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-size: 11px;
+    color: var(--v2-text-muted);
+    background: #fff;
+    font-family: inherit;
+}
+
+body.v2-chrome .v2-topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex-shrink: 0;
+}
+body.v2-chrome .v2-icon-btn {
+    width: 34px; height: 34px;
+    border: none; background: transparent;
+    border-radius: 8px;
+    display: grid; place-items: center;
+    color: var(--v2-text-soft);
+    cursor: pointer;
+    position: relative;
+    text-decoration: none;
+    margin-inline-end: 4px;
+}
+body.v2-chrome .v2-icon-btn:hover { background: var(--v2-hover); color: var(--v2-text); }
+body.v2-chrome .v2-icon-btn .v2-badge {
+    position: absolute;
+    top: 3px; right: 3px;
+    background: var(--v2-accent);
+    color: #fff;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 1px 5px;
+    line-height: 1.2;
+}
+
+/* Module switcher */
+body.v2-chrome .v2-module-switcher {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 36px;
+    padding: 4px 10px 4px 4px;
+    border-radius: 10px;
+    border: 1px solid var(--v2-module-tint-strong);
+    background: linear-gradient(180deg, #fff 0%, var(--v2-module-tint) 120%);
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--v2-module-deep);
+    cursor: pointer;
+    flex-shrink: 0;
+    box-shadow: var(--v2-shadow-sm);
+    transition: box-shadow .15s, transform .12s;
+}
+body.v2-chrome .v2-module-switcher:hover { box-shadow: var(--v2-shadow-md); }
+body.v2-chrome .v2-module-switcher:active { transform: translateY(1px); }
+body.v2-chrome .v2-mod-icon {
+    width: 28px; height: 28px;
+    border-radius: 7px;
+    background: #fff;
+    color: var(--v2-primary);
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--v2-module-tint-strong);
+    overflow: hidden;
+    padding: 2px;
+}
+body.v2-chrome .v2-mod-icon img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+body.v2-chrome .v2-mod-icon [data-lucide] { width: 16px; height: 16px; }
+body.v2-chrome .v2-module-switcher .v2-chev { width: 14px; height: 14px; color: var(--v2-module); }
+
+/* Module switcher popover */
+body.v2-chrome .v2-modpop {
+    position: fixed;
+    top: calc(var(--v2-topbar-h) - 4px);
+    right: 16px;
+    background: var(--v2-panel);
+    border: 1px solid var(--v2-border);
+    border-radius: 14px;
+    box-shadow: var(--v2-shadow-lg);
+    padding: 14px;
+    width: 340px;
+    /* Must sit above the mobile drawer (.v2-shell is z-index 1050 on mobile)
+       so the module switcher overlays the rail/panel when both happen to be
+       open at the same time. */
+    z-index: 1060;
+    display: none;
+}
+body.v2-chrome .v2-modpop.is-open { display: block; }
+body.v2-chrome .v2-modpop h4 { margin: 0 0 2px; font-size: 13px; font-weight: 700; }
+body.v2-chrome .v2-modpop p { margin: 0 0 10px; font-size: 11px; color: var(--v2-text-muted); }
+body.v2-chrome .v2-mod-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+body.v2-chrome .v2-mod-tile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 6px 10px;
+    border: 1px solid var(--v2-border);
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+    color: var(--v2-text);
+    background: var(--v2-panel);
+    text-decoration: none;
+    transition: all .15s;
+}
+/* Demo-mode "Addon" tag on addon-backed module tiles (Rental / RideShare). */
+body.v2-chrome .v2-mod-addon-tag {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    padding: 2px 6px;
+    font-size: 9px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--v2-primary, #0d9488);
+    border-radius: 999px;
+    pointer-events: none;
+}
+body.v2-chrome .v2-mod-tile:hover {
+    background: var(--v2-hover);
+    border-color: var(--v2-border-strong);
+    text-decoration: none;
+    color: var(--v2-text);
+}
+body.v2-chrome .v2-mod-tile.is-active {
+    border-color: var(--v2-primary);
+    background: var(--v2-primary-tint);
+    color: var(--v2-primary-deep);
+    box-shadow: 0 4px 10px rgba(2,135,91,.18);
+}
+body.v2-chrome .v2-mod-tile-ico {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    background: #fff;
+    display: grid;
+    place-items: center;
+    color: var(--v2-primary);
+    overflow: hidden;
+    border: 1px solid var(--v2-border);
+    padding: 4px;
+}
+body.v2-chrome .v2-mod-tile-ico img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+body.v2-chrome .v2-mod-tile.is-active .v2-mod-tile-ico {
+    background: var(--v2-primary-tint);
+    border-color: var(--v2-primary);
+    color: var(--v2-primary-deep);
+}
+body.v2-chrome .v2-mod-empty { text-align: center; padding: 16px 8px; }
+body.v2-chrome .v2-mod-empty p { margin-bottom: 12px; }
+body.v2-chrome .v2-mod-empty-btn {
+    display: inline-block;
+    padding: 6px 14px;
+    background: var(--v2-primary);
+    color: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+/* Language popover */
+body.v2-chrome .v2-lang-wrap { position: relative; display: inline-block; }
+body.v2-chrome .v2-lang-pop {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: var(--v2-panel);
+    border: 1px solid var(--v2-border);
+    border-radius: 12px;
+    box-shadow: var(--v2-shadow-lg);
+    padding: 6px;
+    width: 240px;
+    max-height: 360px;
+    overflow-y: auto;
+    /* Match v2-modpop — must sit above the mobile drawer (1050). */
+    z-index: 1060;
+    display: none;
+}
+body.v2-chrome .v2-lang-pop.is-open { display: block; }
+body.v2-chrome .v2-lang-pop-head {
+    padding: 8px 10px 6px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--v2-text-muted);
+    border-bottom: 1px solid var(--v2-border);
+    margin-bottom: 4px;
+}
+body.v2-chrome .v2-lang-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    color: var(--v2-text);
+    text-decoration: none;
+    font-size: 13px;
+    line-height: 1.2;
+    position: relative;
+}
+body.v2-chrome .v2-lang-item:hover { background: var(--v2-hover); text-decoration: none; color: var(--v2-text); }
+body.v2-chrome .v2-lang-item.is-active { background: var(--v2-primary-tint); color: var(--v2-primary-deep); }
+body.v2-chrome .v2-lang-code {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 38px;
+    height: 24px;
+    padding: 0 6px;
+    font-weight: 600;
+    font-size: 10px;
+    color: var(--v2-text-muted);
+    background: var(--v2-hover);
+    border-radius: 6px;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: .02em;
+}
+body.v2-chrome .v2-lang-item.is-active .v2-lang-code {
+    color: var(--v2-primary-deep);
+    background: rgba(255,255,255,.6);
+}
+body.v2-chrome .v2-lang-name {
+    flex: 1;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+body.v2-chrome .v2-lang-item.is-active .v2-lang-name { font-weight: 600; }
+body.v2-chrome .v2-lang-check {
+    flex: none;
+    width: 16px;
+    height: 16px;
+    color: var(--v2-primary);
+    display: none;
+}
+body.v2-chrome .v2-lang-item.is-active .v2-lang-check { display: block; }
+body.v2-chrome .v2-lang-pop::-webkit-scrollbar { width: 6px; }
+body.v2-chrome .v2-lang-pop::-webkit-scrollbar-thumb { background: var(--v2-border); border-radius: 3px; }
+
+/* ============ Shell (rail + panel) ============ */
+body.v2-chrome .v2-shell {
+    position: fixed;
+    top: var(--v2-topbar-h);
+    left: 0;
+    bottom: 0;
+    display: flex;
+    z-index: 1020;
+}
+
+body.v2-chrome .v2-rail {
+    width: var(--v2-rail-w);
+    flex: none;
+    background: var(--v2-panel);
+    border-right: 1px solid var(--v2-border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 14px 0 12px;
+    gap: 4px;
+    height: 100%;
+}
+body.v2-chrome .v2-rail--module {
+    background: linear-gradient(180deg, var(--v2-module-tint) 0%, var(--v2-panel) 110px);
+}
+body.v2-chrome .v2-rail-scope {
+    font-size: 9.5px;
+    font-weight: 700;
+    color: var(--v2-text-muted);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 0 4px 10px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    justify-content: center;
+}
+body.v2-chrome .v2-rail-scope::before {
+    content: "";
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--v2-text-muted);
+    flex: none;
+}
+body.v2-chrome .v2-rail-scope--module { color: var(--v2-module-deep); }
+body.v2-chrome .v2-rail-scope--module::before { background: var(--v2-module); }
+body.v2-chrome .v2-rail-btns {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    /* overflow stays visible so tooltips can extend past the rail's right edge.
+       If the workspace has too many rail icons (e.g. Settings has 12) the rail
+       container itself scrolls instead. */
+    overflow: visible;
+}
+body.v2-chrome .v2-rail {
+    overflow-y: auto;
+    overflow-x: visible;
+    scrollbar-width: none;
+}
+body.v2-chrome .v2-rail::-webkit-scrollbar { display: none; }
+body.v2-chrome .v2-rail-btn {
+    position: relative;
+    width: 48px; height: 44px;
+    border: none; background: transparent;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    color: var(--v2-text-soft);
+    cursor: pointer;
+    transition: background .15s, color .15s, transform .12s;
+}
+body.v2-chrome .v2-rail-btn:hover { background: var(--v2-hover); color: var(--v2-text); }
+body.v2-chrome .v2-rail-btn.is-active {
+    background: var(--v2-module-deep);
+    color: #fff;
+    box-shadow: 0 6px 14px rgba(1,102,74,.34);
+}
+body.v2-chrome .v2-rail-btn.is-active:hover { background: var(--v2-module-deep); }
+body.v2-chrome .v2-rail-btn [data-lucide] { width: 20px; height: 20px; }
+body.v2-chrome .v2-rail-btn .v2-pin-dot {
+    position: absolute;
+    top: 6px; right: 8px;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--v2-primary);
+    border: 2px solid var(--v2-panel);
+    box-sizing: content-box;
+    display: none;
+}
+body.v2-chrome .v2-rail-btn.has-pins .v2-pin-dot { display: block; }
+/* Rail icon tooltip — rendered into <body> by JS so it escapes
+   every ancestor's overflow-clipping. Positioned via JS using
+   getBoundingClientRect() relative to the hovered rail button. */
+.v2-rail-tooltip {
+    position: fixed;
+    transform: translateY(-50%);
+    background: #1d2433;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 99999;
+    box-shadow: 0 4px 12px rgba(15, 40, 30, .25);
+    opacity: 0;
+    transition: opacity .12s;
+}
+.v2-rail-tooltip.is-visible { opacity: 1; }
+.v2-rail-tooltip::before {
+    content: "";
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 6px solid transparent;
+    border-right-color: #1d2433;
+}
+body.v2-chrome .v2-rail-bottom {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    align-items: center;
+    padding: 10px 0 6px;
+    border-top: 1px solid var(--v2-border);
+    width: 100%;
+}
+body.v2-chrome .v2-rail-profile { padding: 0; display: grid; place-items: center; background: transparent; }
+body.v2-chrome .v2-rail-profile:hover { background: transparent; }
+body.v2-chrome .v2-rail-profile::after,
+body.v2-chrome .v2-rail-profile::before { display: none; }
+body.v2-chrome .v2-avatar {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #02875b, #1ab277);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-size: 11px;
+    font-weight: 600;
+}
+body.v2-chrome .v2-rail-profile .v2-avatar {
+    width: 32px; height: 32px;
+    font-size: 12px;
+    box-shadow: 0 2px 6px rgba(2,135,91,.25);
+}
+body.v2-chrome .v2-avatar--lg { width: 36px; height: 36px; font-size: 13px; }
+
+/* Profile popover */
+body.v2-chrome .v2-profile-pop {
+    position: fixed;
+    left: calc(var(--v2-rail-w) + 8px);
+    bottom: 14px;
+    background: var(--v2-panel);
+    border: 1px solid var(--v2-border);
+    border-radius: 12px;
+    box-shadow: var(--v2-shadow-lg);
+    padding: 8px;
+    min-width: 240px;
+    z-index: 1050;
+    display: none;
+}
+body.v2-chrome .v2-profile-pop.is-open { display: block; }
+body.v2-chrome .v2-profile-pop-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 10px 12px;
+    border-bottom: 1px solid var(--v2-border);
+    margin-bottom: 6px;
+}
+body.v2-chrome .v2-profile-pop-head .v2-meta { min-width: 0; }
+body.v2-chrome .v2-profile-pop-head .v2-name { font-weight: 600; font-size: 13.5px; color: var(--v2-text); }
+body.v2-chrome .v2-profile-pop-head .v2-email { font-size: 11.5px; color: var(--v2-text-muted); }
+body.v2-chrome .v2-profile-pop-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 8px 10px;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--v2-text);
+    cursor: pointer;
+    text-decoration: none;
+}
+body.v2-chrome .v2-profile-pop-item:hover { background: var(--v2-hover); color: var(--v2-text); text-decoration: none; }
+body.v2-chrome .v2-profile-pop-item [data-lucide] { width: 16px; height: 16px; color: var(--v2-text-muted); }
+body.v2-chrome .v2-profile-pop-item:hover [data-lucide] { color: var(--v2-primary); }
+body.v2-chrome .v2-profile-pop-item--danger { color: var(--v2-accent); }
+body.v2-chrome .v2-profile-pop-item--danger [data-lucide] { color: var(--v2-accent); }
+body.v2-chrome .v2-profile-pop-item--danger:hover { background: #feeef4; color: var(--v2-accent); }
+
+/* ============ Panel ============ */
+body.v2-chrome .v2-panel {
+    width: var(--v2-panel-w);
+    flex: none;
+    background: var(--v2-panel);
+    border-right: 1px solid var(--v2-border);
+    height: 100%;
+    overflow-y: auto;
+}
+body.v2-chrome .v2-panel-content[hidden] { display: none; }
+body.v2-chrome .v2-panel-header {
+    padding: 18px 18px 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+body.v2-chrome .v2-panel-title {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    color: var(--v2-text);
+}
+body.v2-chrome .v2-panel-title .name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+body.v2-chrome .v2-module-tag {
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--v2-module-deep);
+    background: var(--v2-module-tint);
+    border: 1px solid var(--v2-module-tint-strong);
+    padding: 2px 7px;
+    border-radius: 99px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex: none;
+}
+body.v2-chrome .v2-module-tag [data-lucide] { width: 11px; height: 11px; color: var(--v2-module); }
+body.v2-chrome .v2-panel-subtitle {
+    font-size: 11.5px;
+    color: var(--v2-text-muted);
+    line-height: 1.4;
+}
+body.v2-chrome .v2-panel-body { padding: 8px 12px 24px; }
+
+/* Pinned card */
+body.v2-chrome .v2-pinned-card {
+    margin: 4px 0 14px;
+    padding: 10px 8px 6px;
+    background: linear-gradient(180deg, var(--v2-primary-tint) 0%, #f5fbf8 100%);
+    border: 1px solid var(--v2-primary-tint-strong);
+    border-radius: 10px;
+}
+body.v2-chrome .v2-pinned-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 8px 6px;
+    color: var(--v2-primary-deep);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+body.v2-chrome .v2-pinned-icon {
+    display: inline-grid;
+    place-items: center;
+    color: var(--v2-primary);
+}
+body.v2-chrome .v2-pinned-icon svg { width: 13px; height: 13px; display: block; }
+body.v2-chrome .v2-pinned-empty {
+    padding: 6px 10px 8px;
+    color: var(--v2-text-muted);
+    font-size: 12px;
+}
+body.v2-chrome .v2-pinned-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 10px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+}
+body.v2-chrome .v2-pinned-item:hover { background: rgba(255,255,255,.6); }
+body.v2-chrome .v2-pinned-item .v2-pin { display: none; }
+
+/* Group + items */
+body.v2-chrome .v2-group { margin-top: 14px; }
+body.v2-chrome .v2-group-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px 6px;
+    color: var(--v2-text-muted);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    user-select: none;
+    width: 100%;
+    border: none;
+    background: transparent;
+    text-align: left;
+}
+body.v2-chrome .v2-group-header:hover { color: var(--v2-text-soft); }
+body.v2-chrome .v2-group-header .v2-chev {
+    margin-left: auto;
+    transition: transform .15s;
+    color: var(--v2-text-muted);
+    width: 14px; height: 14px;
+}
+body.v2-chrome .v2-group.is-collapsed .v2-chev { transform: rotate(-90deg); }
+body.v2-chrome .v2-group-items { display: flex; flex-direction: column; gap: 1px; }
+
+body.v2-chrome .v2-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 10px;
+    border-radius: 8px;
+    color: var(--v2-text);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+    transition: background .12s, color .12s;
+    text-decoration: none;
+}
+body.v2-chrome .v2-nav-item:hover { background: var(--v2-hover); color: var(--v2-text); text-decoration: none; }
+body.v2-chrome .v2-nav-item.is-active {
+    background: var(--v2-primary-tint);
+    color: var(--v2-primary-deep);
+    font-weight: 600;
+}
+body.v2-chrome .v2-nav-item.is-active::before {
+    content: "";
+    position: absolute;
+    left: -12px; top: 7px; bottom: 7px;
+    width: 3px;
+    background: var(--v2-primary);
+    border-radius: 0 3px 3px 0;
+}
+body.v2-chrome .v2-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--v2-text-muted);
+    flex: none;
+}
+body.v2-chrome .v2-dot--blue   { background: #107980; }
+
+/* Feature toggle: pin (config/layout.php → features.pin = false) */
+body.v2-chrome.layout-no-pin .v2-pin,
+body.v2-chrome.layout-no-pin .v2-pinned-card,
+body.v2-chrome.layout-no-pin .v2-pin-dot { display: none !important; }
+body.v2-chrome .v2-dot--green  { background: #1ab277; }
+body.v2-chrome .v2-dot--amber  { background: #e7a13d; }
+body.v2-chrome .v2-dot--violet { background: #8a4af0; }
+body.v2-chrome .v2-dot--rose   { background: #ec1d5d; }
+body.v2-chrome .v2-dot--gray   { background: #9ea7b8; }
+body.v2-chrome .v2-label {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+body.v2-chrome .v2-count {
+    font-size: 11px;
+    color: var(--v2-text-muted);
+    font-weight: 500;
+    background: var(--v2-bg);
+    border: 1px solid var(--v2-border);
+    padding: 0 6px;
+    border-radius: 99px;
+}
+body.v2-chrome .v2-nav-item.is-active .v2-count {
+    background: #fff;
+    border-color: var(--v2-primary-tint-strong);
+    color: var(--v2-primary);
+}
+body.v2-chrome .v2-pin {
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    border: none;
+    background: transparent;
+    display: grid;
+    place-items: center;
+    color: var(--v2-text-muted);
+    opacity: 0;
+    flex: none;
+    cursor: pointer;
+    transition: background .12s, color .12s, transform .12s;
+}
+body.v2-chrome .v2-nav-item:hover .v2-pin { opacity: 1; }
+body.v2-chrome .v2-pin:hover { background: var(--v2-hover); color: var(--v2-text); }
+body.v2-chrome .v2-pin.is-pinned {
+    opacity: 1;
+    color: var(--v2-primary);
+    background: var(--v2-primary-tint);
+}
+body.v2-chrome .v2-pin.is-pinned:hover {
+    background: var(--v2-primary-tint-strong);
+    color: var(--v2-primary-deep);
+}
+body.v2-chrome .v2-pin svg { display: block; }
+
+body.v2-chrome .v2-nav-parent {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 10px;
+    border: none;
+    background: transparent;
+    width: 100%;
+    border-radius: 8px;
+    color: var(--v2-text);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: left;
+}
+body.v2-chrome .v2-nav-parent:hover { background: var(--v2-hover); }
+body.v2-chrome .v2-nav-parent .v2-chev {
+    margin-left: auto;
+    transition: transform .15s;
+    color: var(--v2-text-muted);
+    width: 14px; height: 14px;
+}
+body.v2-chrome .v2-nav-parent.is-open .v2-chev { transform: rotate(90deg); }
+body.v2-chrome .v2-nav-children {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    padding: 1px 0 1px 22px;
+}
+body.v2-chrome .v2-nav-children[hidden] { display: none; }
+body.v2-chrome .v2-nav-children .v2-nav-item {
+    padding-left: 10px;
+    font-weight: 400;
+    color: var(--v2-text-soft);
+}
+body.v2-chrome .v2-nav-children .v2-nav-item.is-active { color: var(--v2-primary); font-weight: 500; }
+
+/* ============ Compact mode (panel hover-to-peek) ============ */
+@media (min-width: 721px) {
+    body.v2-chrome.v2-mode-compact #content,
+    body.v2-chrome.v2-mode-compact main#content {
+        margin-left: var(--v2-rail-w) !important;
+        width: calc(100% - var(--v2-rail-w)) !important;
+    }
+    body.v2-chrome.v2-mode-compact .footer,
+    body.v2-chrome.v2-mode-compact .free-trial {
+        left: var(--v2-rail-w) !important;
+    }
+    body.v2-chrome.v2-mode-compact .v2-panel {
+        width: 0;
+        position: fixed;
+        left: var(--v2-rail-w);
+        top: var(--v2-topbar-h);
+        height: calc(100vh - var(--v2-topbar-h));
+        z-index: 1025;
+        overflow: hidden;
+        box-shadow: var(--v2-shadow-lg);
+        transition: width .18s ease;
+    }
+    body.v2-chrome.v2-mode-compact .v2-rail:hover ~ .v2-panel,
+    body.v2-chrome.v2-mode-compact .v2-panel:hover {
+        width: var(--v2-panel-w);
+        overflow-y: auto;
+    }
+}
+
+/* Mobile drawer */
+body.v2-chrome .v2-mobile-toggle { display: none; }
+body.v2-chrome .v2-mobile-only-search { display: none; }
+body.v2-chrome .v2-mobile-backdrop { display: none; }
+
+@media (max-width: 1380px) {
+    body.v2-chrome .v2-topbar { gap: 6px; }
+    body.v2-chrome .v2-topbar-search { width: 240px; }
+    body.v2-chrome .v2-ws-tab { padding: 0 12px; }
+}
+@media (max-width: 1280px) {
+    body.v2-chrome .v2-ws-tab span:not(.v2-module-pill) { display: none; }
+    body.v2-chrome .v2-ws-tab { padding: 0 10px; gap: 0; }
+    body.v2-chrome .v2-topbar-search { width: 200px; }
+    body.v2-chrome .v2-brand-mark { max-width: 120px; }
+}
+@media (max-width: 1024px) {
+    body.v2-chrome .v2-topbar-search { display: none; }
+    body.v2-chrome .v2-mobile-only-search { display: grid; }
+}
+@media (max-width: 880px) {
+    body.v2-chrome .v2-module-switcher .v2-mod-name { display: none; }
+    body.v2-chrome .v2-module-switcher { padding: 4px 8px 4px 4px; gap: 4px; }
+}
+@media (max-width: 720px) {
+    body.v2-chrome .v2-mobile-toggle { display: grid; }
+    body.v2-chrome .v2-desktop-only { display: none !important; }
+    body.v2-chrome .v2-topbar { padding: 0 10px; gap: 6px; }
+    body.v2-chrome .v2-brand-mark { max-width: 96px; height: 28px; }
+
+    /* Shrink rail + panel on mobile so the drawer doesn't eat the whole
+       viewport on small phones. */
+    body.v2-chrome .v2-rail { width: 56px; }
+    body.v2-chrome .v2-panel { width: min(240px, calc(100vw - 56px - 32px)); }
+
+    /* Tap-friendliness: kill the 300ms tap delay and any vendor-default
+       highlight on every interactive element across the v2 chrome and the
+       page content beneath it. iOS Safari needs touch-action: manipulation
+       on labels / non-button "tabs" / toggle switches before they reliably
+       fire click events on a tap. */
+    body.v2-chrome a,
+    body.v2-chrome button,
+    body.v2-chrome input,
+    body.v2-chrome select,
+    body.v2-chrome textarea,
+    body.v2-chrome label,
+    body.v2-chrome [role="tab"],
+    body.v2-chrome [role="button"],
+    body.v2-chrome [data-toggle],
+    body.v2-chrome [data-target],
+    body.v2-chrome .nav-link,
+    body.v2-chrome .nav-tabs > li,
+    body.v2-chrome .toggle-switch,
+    body.v2-chrome .toggle-switch-label,
+    body.v2-chrome .form-check,
+    body.v2-chrome .custom-control,
+    body.v2-chrome .select2-selection,
+    body.v2-chrome .select2-results__option {
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: rgba(16,121,128,.18);
+    }
+
+    /* Workspace tabs become a horizontally-scrollable strip below the topbar
+       so users can still switch between Module/Users/Finance/Reports/Dispatch/Settings on mobile. */
+    body.v2-chrome .v2-topnav {
+        display: flex;
+        position: fixed;
+        top: var(--v2-topbar-h);
+        left: 0;
+        right: 0;
+        height: 44px;
+        padding: 0 8px;
+        background: var(--v2-panel, #fff);
+        border-bottom: 1px solid var(--v2-border);
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        z-index: 1029;
+        gap: 6px;
+        align-items: center;
+        scrollbar-width: none;
+    }
+    body.v2-chrome .v2-topnav::-webkit-scrollbar { display: none; }
+    body.v2-chrome .v2-topnav .v2-ws-tab {
+        flex: 0 0 auto;
+        padding: 0 12px;
+        height: 32px;
+    }
+    body.v2-chrome .v2-topnav .v2-ws-tab span:not(.v2-module-pill) { display: inline; }
+
+    body.v2-chrome #content,
+    body.v2-chrome main#content {
+        margin-left: 0 !important;
+        margin-top: calc(var(--v2-topbar-h) + 44px) !important;
+        width: 100% !important;
+    }
+    body.v2-chrome .footer,
+    body.v2-chrome .free-trial {
+        left: 0 !important;
+    }
+    body.v2-chrome .v2-shell {
+        top: calc(var(--v2-topbar-h) + 44px);
+        /* Sit below Bootstrap modals (1050) and Bootstrap offcanvases so
+           the global search modal / withdraw-detail offcanvas overlay the
+           drawer cleanly when both happen to be in flight. */
+        z-index: 1045;
+        /* When the drawer is closed, the rail+panel are visually translated
+           off-screen, but the .v2-shell container itself keeps its layout
+           box on the left side of the viewport. Its z-index is higher than
+           the topbar/module-popup, so without this it silently swallows
+           taps on anything that sits underneath it — including the module
+           switcher dropdown and any controls in the left half of the page. */
+        pointer-events: none;
+    }
+    body.v2-chrome.v2-drawer-open .v2-shell { pointer-events: auto; }
+    /* Bootstrap adds `modal-open` to <body> while any modal is showing.
+       Hard-hide the v2 drawer in that state so the search modal and the
+       drawer can never appear together. Same for Bootstrap offcanvas
+       (custom or v5 — both rely on .offcanvas/.show pairing). */
+    body.v2-chrome.modal-open .v2-shell { display: none !important; }
+    body.v2-chrome .v2-rail,
+    body.v2-chrome .v2-panel {
+        transition: transform .25s ease;
+        pointer-events: auto;
+    }
+    body.v2-chrome .v2-rail { transform: translateX(-100%); }
+    body.v2-chrome .v2-panel { transform: translateX(calc(-100% - var(--v2-rail-w))); }
+    body.v2-chrome.v2-drawer-open .v2-rail,
+    body.v2-chrome.v2-drawer-open .v2-panel {
+        transform: translateX(0);
+    }
+    body.v2-chrome .v2-mobile-backdrop {
+        display: block;
+        position: fixed;
+        top: calc(var(--v2-topbar-h) + 44px);
+        left: 0; right: 0; bottom: 0;
+        background: rgba(15,40,30,.62);
+        z-index: 1040;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .2s;
+    }
+    body.v2-chrome.v2-drawer-open .v2-mobile-backdrop {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    body.v2-chrome.v2-drawer-open { overflow: hidden; }
+    body.v2-chrome .v2-modpop {
+        width: min(320px, calc(100vw - 24px));
+        right: 12px;
+        left: auto;
+    }
+}
+
+/* ============================================================
+ * Modal stack — the bundled bootstrap.min.css ships with modal
+ * z-index 103 and modal-backdrop 102, both below the v2 shell (1020)
+ * and topbar (1030), so they render on top of the modal. Lift the
+ * modal stack above every piece of v2 chrome so the backdrop dims
+ * the whole viewport, including the topbar.
+ * ============================================================ */
+body.v2-chrome .modal {
+    z-index: 1055;
+}
+body.v2-chrome .modal-backdrop {
+    z-index: 1054;
+}
+
+/* ============================================================
+ * Legacy filter drawer (.sidebar + .hs-unfold-overlay) — used by
+ * the ride list and other index pages. Theme defaults are z-index
+ * 101 / 100, below the v2 topbar (1030), so the topbar visually
+ * clips the drawer's top edge. Lift them above the topbar.
+ * ============================================================ */
+body.v2-chrome .sidebar {
+    z-index: 1055;
+}
+body.v2-chrome .hs-unfold-overlay {
+    z-index: 1054;
+}
+
+/* ============================================================
+ * v2 tour (driver.js) — teal-themed popover overrides
+ * ============================================================ */
+body.v2-chrome .driver-popover.v2-tour-popover {
+    background: var(--v2-panel);
+    color: var(--v2-text);
+    border-radius: 12px;
+    border: 1px solid var(--v2-border);
+    box-shadow: var(--v2-shadow-lg);
+    padding: 18px 18px 14px;
+    max-width: 340px;
+}
+@media (max-width: 720px) {
+    body.v2-chrome .driver-popover.v2-tour-popover {
+        max-width: calc(100vw - 24px);
+        padding: 14px 14px 12px;
+    }
+    body.v2-chrome .v2-tour-popover .driver-popover-title { font-size: 14px; }
+    body.v2-chrome .v2-tour-popover .driver-popover-description { font-size: 12px; }
+}
+body.v2-chrome .v2-tour-popover .driver-popover-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--v2-text);
+    margin-bottom: 6px;
+    padding-right: 24px;
+}
+body.v2-chrome .v2-tour-popover .driver-popover-description {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--v2-text-soft);
+}
+body.v2-chrome .v2-tour-popover .driver-popover-progress-text {
+    font-size: 11px;
+    color: var(--v2-text-muted);
+    font-weight: 500;
+}
+body.v2-chrome .v2-tour-popover .driver-popover-footer {
+    margin-top: 14px;
+    gap: 6px;
+}
+body.v2-chrome .v2-tour-popover .driver-popover-prev-btn,
+body.v2-chrome .v2-tour-popover .driver-popover-next-btn {
+    background: var(--v2-primary);
+    color: #fff;
+    border: 1px solid var(--v2-primary);
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    text-shadow: none;
+    box-shadow: none;
+}
+body.v2-chrome .v2-tour-popover .driver-popover-prev-btn:hover,
+body.v2-chrome .v2-tour-popover .driver-popover-next-btn:hover {
+    background: var(--v2-primary-deep);
+    border-color: var(--v2-primary-deep);
+}
+body.v2-chrome .v2-tour-popover .driver-popover-prev-btn {
+    background: var(--v2-panel);
+    color: var(--v2-text-soft);
+    border-color: var(--v2-border-strong);
+}
+body.v2-chrome .v2-tour-popover .driver-popover-prev-btn:hover {
+    background: var(--v2-hover);
+    color: var(--v2-text);
+    border-color: var(--v2-border-strong);
+}
+body.v2-chrome .v2-tour-popover .driver-popover-close-btn {
+    color: var(--v2-text-muted);
+    font-size: 18px;
+    top: 10px;
+    right: 12px;
+}
+body.v2-chrome .v2-tour-popover .driver-popover-close-btn:hover {
+    color: var(--v2-text);
+}
+body.v2-chrome .v2-tour-popover .driver-popover-arrow {
+    border-color: var(--v2-panel);
+}
+body.v2-chrome .v2-tour-popover .driver-popover-arrow-side-bottom {
+    border-bottom-color: var(--v2-panel);
+}
+body.v2-chrome .v2-tour-popover .driver-popover-arrow-side-top {
+    border-top-color: var(--v2-panel);
+}
+body.v2-chrome .v2-tour-popover .driver-popover-arrow-side-left {
+    border-left-color: var(--v2-panel);
+}
+body.v2-chrome .v2-tour-popover .driver-popover-arrow-side-right {
+    border-right-color: var(--v2-panel);
+}
+
+/* ============================================================
+ * RTL (Arabic / Hebrew etc.) — mirror the v2 chrome.
+ * The chrome was built LTR-first; everything that uses `left` /
+ * `right` / `margin-left` / `margin-right` / `border-right` needs
+ * to be flipped when the document is in RTL so the sidebar lives
+ * on the right edge and the content sits to its left.
+ * ============================================================ */
+
+/* --- Layout: rail + panel on the right edge ---
+   The LTR rule uses `body.v2-chrome > #content` (direct child) and sets
+   width + margin-left. We re-declare width here so the rule binds via the
+   descendant selector even when the page wraps <main> in an extra
+   element. */
+[dir="rtl"] body.v2-chrome #content,
+[dir="rtl"] body.v2-chrome main#content,
+[dir="rtl"] body.v2-chrome > #content,
+[dir="rtl"] body.v2-chrome > main#content {
+    margin-left: 0 !important;
+    margin-right: calc(var(--v2-rail-w) + var(--v2-panel-w)) !important;
+    width: calc(100% - var(--v2-rail-w) - var(--v2-panel-w)) !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+/* The page-level .content wrapper inside <main> (Bootstrap's
+   `<div class="content container-fluid">`) and similar containers
+   sometimes ship with explicit `padding-left`/`padding-right` that don't
+   auto-flip with dir=rtl. Force them to fill the available width. */
+[dir="rtl"] body.v2-chrome #content > .content,
+[dir="rtl"] body.v2-chrome #content > .container-fluid,
+[dir="rtl"] body.v2-chrome #content > .container {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    max-width: 100% !important;
+}
+[dir="rtl"] body.v2-chrome .footer {
+    right: calc(var(--v2-rail-w) + var(--v2-panel-w)) !important;
+    left: 0 !important;
+}
+[dir="rtl"] body.v2-chrome .v2-shell {
+    left: auto;
+    right: 0;
+}
+[dir="rtl"] body.v2-chrome .v2-rail {
+    border-right: none;
+    border-left: 1px solid var(--v2-border);
+}
+[dir="rtl"] body.v2-chrome .v2-panel {
+    border-right: none;
+    border-left: 1px solid var(--v2-border);
+}
+
+/* --- Compact mode (desktop) --- */
+@media (min-width: 721px) {
+    [dir="rtl"] body.v2-chrome.v2-mode-compact #content,
+    [dir="rtl"] body.v2-chrome.v2-mode-compact main#content {
+        margin-left: 0 !important;
+        margin-right: var(--v2-rail-w) !important;
+        width: calc(100% - var(--v2-rail-w)) !important;
+    }
+    [dir="rtl"] body.v2-chrome.v2-mode-compact .footer,
+    [dir="rtl"] body.v2-chrome.v2-mode-compact .free-trial {
+        right: var(--v2-rail-w) !important;
+        left: 0 !important;
+    }
+    [dir="rtl"] body.v2-chrome.v2-mode-compact .v2-panel {
+        left: auto;
+        right: var(--v2-rail-w);
+    }
+}
+
+/* --- Topbar dropdowns: module switcher + language popover --- */
+[dir="rtl"] body.v2-chrome .v2-modpop {
+    right: auto;
+    left: 16px;
+}
+[dir="rtl"] body.v2-chrome .v2-lang-pop {
+    right: auto;
+    left: 0;
+}
+
+/* --- Profile popover: lives next to the bottom of the rail. The rail is
+       on the right in RTL, so the popover anchors to the right edge too. --- */
+[dir="rtl"] body.v2-chrome .v2-profile-pop {
+    left: auto;
+    right: calc(var(--v2-rail-w) + 8px);
+}
+
+/* --- Mobile drawer: slide in from the RIGHT instead of the left --- */
+@media (max-width: 720px) {
+    [dir="rtl"] body.v2-chrome #content,
+    [dir="rtl"] body.v2-chrome main#content {
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+        /* Override the desktop RTL rule's `width: calc(100% - rail - panel)`.
+           On mobile the drawer slides over the content, so content should
+           occupy the full viewport width. */
+        width: 100% !important;
+    }
+    [dir="rtl"] body.v2-chrome .footer,
+    [dir="rtl"] body.v2-chrome .free-trial {
+        right: 0 !important;
+        left: 0 !important;
+    }
+    [dir="rtl"] body.v2-chrome .v2-rail { transform: translateX(100%); }
+    [dir="rtl"] body.v2-chrome .v2-panel { transform: translateX(calc(100% + var(--v2-rail-w))); }
+    [dir="rtl"] body.v2-chrome.v2-drawer-open .v2-rail,
+    [dir="rtl"] body.v2-chrome.v2-drawer-open .v2-panel {
+        transform: translateX(0);
+    }
+    [dir="rtl"] body.v2-chrome .v2-modpop {
+        right: auto;
+        left: 12px;
+    }
+}
+
+/* --- Form input icons (calendar / dropdown / clear) hard-code
+       `right: 15px` in style.css via .icon-absolute-on-right. In RTL the
+       text flows right-to-left so the icon overlaps the placeholder text.
+       Move the icon to the left edge in RTL — that's the trailing edge
+       in RTL reading order. --- */
+[dir="rtl"] .icon-absolute-on-right {
+    right: auto !important;
+    left: 15px !important;
+}
+/* Pair the input's own padding with the icon side. Without this the
+   right-aligned RTL text still runs under the calendar icon at the
+   far-left edge. */
+[dir="rtl"] .position-relative > .icon-absolute-on-right ~ .form-control,
+[dir="rtl"] .position-relative > .icon-absolute-on-right + .form-control {
+    padding-left: 36px;
+    padding-right: 12px;
+}
+
+/* --- Rail tooltip pops out to the LEFT in RTL --- */
+[dir="rtl"] .v2-rail-tooltip { transform: translateX(0) translateY(-50%); }
+[dir="rtl"] .v2-rail-tooltip::before {
+    right: auto;
+    left: 100%;
+    border-right-color: transparent;
+    border-left-color: #1d2433;
+}
+
+/* --- Nav-item active accent bar moves to the right edge of the item --- */
+[dir="rtl"] body.v2-chrome .v2-nav-item.is-active::before {
+    left: auto;
+    right: -12px;
+    border-radius: 3px 0 0 3px;
+}
+
+/* --- Nav-children indentation flips so children indent from the right --- */
+[dir="rtl"] body.v2-chrome .v2-nav-children {
+    padding: 1px 22px 1px 0;
+}
+[dir="rtl"] body.v2-chrome .v2-nav-children .v2-nav-item {
+    padding-left: 12px;
+    padding-right: 10px;
+}
+
+/* --- Group header chevron: when the group is "open" the chevron points
+       down (default rotation 0); when collapsed it currently rotates -90deg
+       which points LEFT in LTR. In RTL we want it to point RIGHT instead. --- */
+[dir="rtl"] body.v2-chrome .v2-group.is-collapsed .v2-chev {
+    transform: rotate(90deg);
+}
+
+/* --- Nav-parent chevron (children indicator) defaults to a "chevron-right"
+       lucide icon pointing into the children. In RTL it should point the
+       other way — flip horizontally. When open it rotates 90deg in LTR
+       which means down; that still reads as "open" in RTL too, so we
+       only flip the closed state. --- */
+[dir="rtl"] body.v2-chrome .v2-nav-parent:not(.is-open) .v2-chev {
+    transform: scaleX(-1);
+}
+
+/* --- Pin button hangs on the trailing edge of nav-items. The nav-item is
+       flex row, so the visual flip from dir=rtl handles it automatically —
+       no extra rule needed. --- */
+
+/* --- Slide-in offcanvas forms (.withdraw-info-sidebar, used on Brand setup and
+       many other admin pages) default to z-index 999 / overlay 998 from style.css.
+       That sits UNDER the v2 chrome (topbar 1030, rail/panel 1050), so the header
+       and left sidebar bleed over the open panel. Lift the panel and its backdrop
+       above the whole chrome — but only in v2, so the v1 layout is untouched. --- */
+body.v2-chrome .withdraw-info-sidebar-overlay { z-index: 1200; }
+body.v2-chrome .withdraw-info-sidebar { z-index: 1201; }
+
+/* --- Demo announcement bar × v2 chrome --------------------------------------
+   demo.css renders `.__announcement-bar` as position:fixed / top:0 / z-index:98
+   and adds `body.demo { padding-top:50px }` — both written for the LEGACY layout.
+   Under the v2 chrome that broke two ways:
+     • the fixed v2 topbar (z-index 1030, top:0) painted OVER the bar → the bar
+       looked "missing on top";
+     • v2 offsets content with its own margin-top (not body padding), so the
+       leftover 50px body padding showed as an empty GAP.
+   Fix: lift the bar above the topbar and shift the whole v2 chrome (topbar,
+   rail+panel shell, content) down by the bar's height so it's visible with no
+   gap. Scoped to `.demo`, so non-demo v2 pages are untouched. -------------------- */
+body.v2-chrome.demo { --v2-demo-bar-h: 50px; padding-top: 0 !important; }
+@media screen and (max-width: 486px) {
+    body.v2-chrome.demo { --v2-demo-bar-h: 96px; }
+}
+
+/* Bar above the topbar; keep it fixed even after demo.js adds .page-scrolled
+   (the legacy slide-away would re-open the gap since the chrome offset is fixed). */
+body.v2-chrome.demo .__announcement-bar { z-index: 1040 !important; }
+body.v2-chrome.demo.page-scrolled .__announcement-bar { transform: none !important; }
+
+/* Push the chrome down by the bar height. */
+body.v2-chrome.demo .v2-topbar { top: var(--v2-demo-bar-h); }
+body.v2-chrome.demo .v2-shell  { top: calc(var(--v2-topbar-h) + var(--v2-demo-bar-h)); }
+body.v2-chrome.demo #content,
+body.v2-chrome.demo main#content {
+    margin-top: calc(var(--v2-topbar-h) + var(--v2-demo-bar-h)) !important;
+    min-height: calc(100vh - var(--v2-topbar-h) - var(--v2-demo-bar-h)) !important;
+}
+

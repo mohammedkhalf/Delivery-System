@@ -1,0 +1,42 @@
+{
+    "private": true,
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build && npm run ensure:symlink",
+        "build:prod": "rm -f public/hot 'public/hot 2' && vite build && npm run ensure:symlink",
+        "ensure:symlink": "test -L build || ln -s public/build build",
+        "package:addon": "./scripts/package-builder-addon.sh",
+        "dev:mix": "mix",
+        "watch:mix": "mix watch",
+        "watch-poll:mix": "mix watch -- --watch-options-poll=1000",
+        "hot:mix": "mix watch --hot",
+        "build:mix": "mix --production",
+        "i18n:extract": "i18next --config ./i18next-parser.config.mjs",
+        "i18n:watch": "i18next --config ./i18next-parser.config.mjs --watch"
+    },
+    "devDependencies": {
+        "@vitejs/plugin-react": "^4.7.0",
+        "axios": "^1.15.0",
+        "i18next-parser": "^9.0.2",
+        "laravel-echo": "^2.2.4",
+        "laravel-mix": "^6.0.6",
+        "laravel-vite-plugin": "^1.3.0",
+        "lodash": "^4.17.19",
+        "postcss": "^8.1.14",
+        "pusher-js": "^8.4.0",
+        "vite": "^5.0.0"
+    },
+    "dependencies": {
+        "@inertiajs/react": "^3.0.3",
+        "@react-google-maps/api": "^2.20.8",
+        "firebase": "^10.12.0",
+        "i18next": "^26.0.8",
+        "react": "^19.2.5",
+        "react-dom": "^19.2.5",
+        "react-hot-toast": "^2.6.0",
+        "react-i18next": "^17.0.6",
+        "react-phone-input-2": "^2.15.1",
+        "swiper": "^12.1.3",
+        "ziggy-js": "^2.6.2"
+    }
+}

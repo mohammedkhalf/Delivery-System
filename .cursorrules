@@ -1,0 +1,10 @@
+# Laravel Context
+- Framework: Laravel 12, PHP 8.3+
+- Stack: Livewire/Alpine/Tailwind/blade template engine
+- Database: mysql
+
+# Coding Rules
+- Use PHP 8.3 typed properties, constructor promotion, and strict types.
+- Follow Laravel standard directory structure.
+- Use FormRequests for validation.
+- Prefer Eloquent strict loading (`preventLazyLoading`).

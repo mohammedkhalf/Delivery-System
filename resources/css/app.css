@@ -1,0 +1,41 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+        'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Strip Bootstrap button focus ring / box-shadow in the builder */
+#app button:focus,
+#app button:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* ── Shared slim scrollbar — dark bg (sidebar, dark panels) ── */
+.slim-scroll {
+    overflow-y: auto;
+    overflow-y: overlay; /* float above content, no layout shift */
+}
+.slim-scroll::-webkit-scrollbar              { width: 4px; }
+.slim-scroll::-webkit-scrollbar-track        { background: transparent; }
+.slim-scroll::-webkit-scrollbar-thumb        { background: rgba(255, 255, 255, 0.25); border-radius: 4px; }
+.slim-scroll::-webkit-scrollbar-thumb:hover  { background: rgba(255, 255, 255, 0.45); }
+
+/* ── Shared slim scrollbar — light bg (preview, right panel) ── */
+.slim-scroll-dark {
+    overflow-y: auto;
+    overflow-y: overlay; /* float above content, no layout shift */
+    overflow-x: hidden;
+}
+.slim-scroll-dark::-webkit-scrollbar             { width: 4px; }
+.slim-scroll-dark::-webkit-scrollbar-track       { background: transparent; }
+.slim-scroll-dark::-webkit-scrollbar-thumb       { background: rgba(0, 0, 0, 0.15); border-radius: 4px; }
+.slim-scroll-dark::-webkit-scrollbar-thumb:hover { background: rgba(0, 0, 0, 0.30); }
+
+/* ── Scroll without visible scrollbar (device preview) ── */
+.no-scrollbar { overflow-y: auto; overflow-x: hidden; scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }

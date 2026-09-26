@@ -1,0 +1,1224 @@
+{
+  "info": {
+    "_postman_id": "a1b2c3d4-5e6f-47a8-9b10-service-vendor-catalog",
+    "name": "6amMart - Service Module - Vendor App Catalog",
+    "description": "Vendor (provider) app catalog APIs for the Service module.\n\nAuth: Bearer token + `vendorType: owner|employee` header (middleware `vendor.api`). The module is resolved from the token's store and can be overridden with the `moduleId` header. Every endpoint is scoped to the vendor's own store.\n\nCategories, sub-categories and store categories are COMMON vendor-app features served by the core endpoints (folder \"Common (core)\") and are not duplicated per-module.\n\nSet the collection variables `base_url`, `core_base`, `vendor_token` and `module_id` in your environment.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost/api/v1",
+      "type": "string"
+    },
+    {
+      "key": "core_base",
+      "value": "http://localhost/api/v1",
+      "type": "string"
+    },
+    {
+      "key": "vendor_token",
+      "value": "PASTE_VENDOR_AUTH_TOKEN",
+      "type": "string"
+    },
+    {
+      "key": "vendor_type",
+      "value": "owner",
+      "type": "string"
+    },
+    {
+      "key": "module_id",
+      "value": "13",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{vendor_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Services",
+      "item": [
+        {
+          "name": "Service List",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "vendorType",
+                "value": "{{vendor_type}}"
+              },
+              {
+                "key": "moduleId",
+                "value": "{{module_id}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/vendor/service/list?limit=10&offset=1&category_id=all&sub_category_id=all&status=all&search=",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "vendor",
+                "service",
+                "list"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "offset",
+                  "value": "1"
+                },
+                {
+                  "key": "category_id",
+                  "value": "all",
+                  "description": "numeric category id or 'all'"
+                },
+                {
+                  "key": "sub_category_id",
+                  "value": "all",
+                  "description": "numeric sub-category id or 'all'"
+                },
+                {
+                  "key": "status",
+                  "value": "all",
+                  "description": "all | active | inactive"
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "description": "free-text name search"
+                }
+              ]
+            },
+            "description": "Paginated list of the vendor's own services. Returns { total_size, limit, offset, services: [...] }."
+          },
+          "response": []
+        },
+        {
+          "name": "Service Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "vendorType",
+                "value": "{{vendor_type}}"
+              },
+              {
+                "key": "moduleId",
+                "value": "{{module_id}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/vendor/service/details/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "vendor",
+                "service",
+                "details",
+                "1"
+              ]
+            },
+            "description": "Full service detail incl. per-language `translations` and `seo` (for the edit screen)."
+          },
+          "response": []
+        },
+        {
+          "name": "Create Service",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "vendorType",
+                "value": "{{vendor_type}}"
+              },
+              {
+                "key": "moduleId",
+                "value": "{{module_id}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name[]",
+                  "value": "AC Repair Service",
+                  "type": "text",
+                  "description": "default-language name (index aligned with lang[])"
+                },
+                {
+                  "key": "lang[]",
+                  "value": "default",
+                  "type": "text"
+                },
+                {
+                  "key": "short_description[]",
+                  "value": "Professional AC repair and servicing.",
+                  "type": "text"
+                },
+                {
+                  "key": "long_description[]",
+                  "value": "Full diagnostics, gas refill, and cleaning.",
+                  "type": "text"
+                },
+                {
+                  "key": "category_id",
+                  "value": "174",
+                  "type": "text"
+                },
+                {
+                  "key": "sub_category_id",
+                  "value": "175",
+                  "type": "text"
+                },
+                {
+                  "key": "store_category_id",
+                  "value": "",
+                  "type": "text",
+                  "description": "required only if the store has provider categories"
+                },
+                {
+                  "key": "base_price",
+                  "value": "500",
+                  "type": "text"
+                },
+                {
+                  "key": "discount",
+                  "value": "10",
+                  "type": "text"
+                },
+                {
+                  "key": "discount_type",
+                  "value": "percent",
+                  "type": "text",
+                  "description": "percent | amount"
+                },
+                {
+                  "key": "variations",
+                  "value": "[{\"name\":\"1 Ton\",\"price\":500,\"discount\":0,\"discount_type\":\"percent\"},{\"name\":\"2 Ton\",\"price\":800,\"discount\":5,\"discount_type\":\"percent\"}]",
+                  "type": "text",
+                  "description": "JSON string or variations[i][name]/[price]/[discount]/[discount_type] fields"
+                },
+                {
+                  "key": "tags",
+                  "value": "ac,repair,cooling",
+                  "type": "text"
+                },
+                {
+                  "key": "recommended",
+                  "value": "0",
+                  "type": "text"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": [],
+                  "description": "thumbnail (jpg/png/webp, max 2MB, 2:1)"
+                },
+                {
+                  "key": "item_images[]",
+                  "type": "file",
+                  "src": [],
+                  "description": "additional images (max 5)"
+                },
+                {
+                  "key": "meta_title",
+                  "value": "",
+                  "type": "text"
+                },
+                {
+                  "key": "meta_description",
+                  "value": "",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/vendor/service/store",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "vendor",
+                "service",
+                "store"
+              ]
+            },
+            "description": "Create a service under the vendor's own store. If `product_approval` + `Add_new_product` are on, the service is created pending (is_approved=0)."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Service",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "vendorType",
+                "value": "{{vendor_type}}"
+              },
+              {
+                "key": "moduleId",
+                "value": "{{module_id}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name[]",
+                  "value": "AC Repair Service",
+                  "type": "text"
+                },
+                {
+                  "key": "lang[]",
+                  "value": "default",
+                  "type": "text"
+                },
+                {
+                  "key": "short_description[]",
+                  "value": "Updated description.",
+                  "type": "text"
+                },
+                {
+                  "key": "long_description[]",
+                  "value": "Updated long description.",
+                  "type": "text"
+                },
+                {
+                  "key": "category_id",
+                  "value": "174",
+                  "type": "text"
+                },
+                {
+                  "key": "sub_category_id",
+                  "value": "175",
+                  "type": "text"
+                },
+                {
+                  "key": "store_category_id",
+                  "value": "",
+                  "type": "text"
+                },
+                {
+                  "key": "base_price",
+                  "value": "550",
+                  "type": "text"
+                },
+                {
+                  "key": "discount",
+                  "value": "15",
+                  "type": "text"
+                },
+                {
+                  "key": "discount_type",
+                  "value": "percent",
+                  "type": "text"
+                },
+                {
+                  "key": "variations",
+                  "value": "[{\"name\":\"1 Ton\",\"price\":550,\"discount\":0,\"discount_type\":\"percent\"}]",
+                  "type": "text"
+                },
+                {
+                  "key": "tags",
+                  "value": "ac,repair",
+                  "type": "text"
+                },
+                {
+                  "key": "removedImageKeys",
+                  "value": "",
+                  "type": "text",
+                  "description": "comma-separated existing additional-image filenames to remove"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": [],
+                  "description": "optional new thumbnail"
+                },
+                {
+                  "key": "item_images[]",
+                  "type": "file",
+                  "src": [],
+                  "description": "optional new additional images"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/vendor/service/update/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "vendor",
+                "service",
+                "update",
+                "1"
+              ]
+            },
+            "description": "Update a service. When `product_approval` + an update flag require it, the change is queued in TempService and the response returns `approval_pending: true`."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "vendorType",
+                "value": "{{vendor_type}}"
+              },
+              {
+                "key": "moduleId",
+                "value": "{{module_id}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/vendor/service/status/1/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "vendor",
+                "service",
+                "status",
+                "1",
+                "1"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1"
+                },
+                {
+                  "key": "status",
+                  "value": "1",
+                  "description": "1 = active, 0 = inactive"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Service",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "vendorType",
+                "value": "{{vendor_type}}"
+              },
+              {
+                "key": "moduleId",
+                "value": "{{module_id}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/vendor/service/delete/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "vendor",
+                "service",
+                "delete",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Pending Services",
+      "item": [
+        {
+          "name": "Pending Service List",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "vendorType",
+                "value": "{{vendor_type}}"
+              },
+              {
+                "key": "moduleId",
+                "value": "{{module_id}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/vendor/service/pending-list?limit=10&offset=1&filter=all&search=",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "vendor",
+                "service",
+                "pending-list"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "offset",
+                  "value": "1"
+                },
+                {
+                  "key": "filter",
+                  "value": "all",
+                  "description": "all | pending | rejected"
+                },
+                {
+                  "key": "search",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Services awaiting admin approval (TempService). Only meaningful when `product_approval` is enabled."
+          },
+          "response": []
+        },
+        {
+          "name": "Pending Service Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "vendorType",
+                "value": "{{vendor_type}}"
+              },
+              {
+                "key": "moduleId",
+                "value": "{{module_id}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/vendor/service/pending-details/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "vendor",
+                "service",
+                "pending-details",
+                "1"
+              ]
+            },
+            "description": "Full details of one pending/rejected request (TempService id) \u2014 name, descriptions, variations, tags, images, translations, SEO and rejection note. Use it to prefill the edit screen; submit edits to `update/{service_id}` (the request's service_id), which re-saves the same temp."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Pending Service",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "vendorType",
+                "value": "{{vendor_type}}"
+              },
+              {
+                "key": "moduleId",
+                "value": "{{module_id}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/vendor/service/pending-delete/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "vendor",
+                "service",
+                "pending-delete",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Service Gallery",
+      "item": [
+        {
+          "name": "Gallery List",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "vendorType",
+                "value": "{{vendor_type}}"
+              },
+              {
+                "key": "moduleId",
+                "value": "{{module_id}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/vendor/service/gallery?limit=12&offset=1&category_id=all&search=",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "vendor",
+                "service",
+                "gallery"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "12"
+                },
+                {
+                  "key": "offset",
+                  "value": "1"
+                },
+                {
+                  "key": "category_id",
+                  "value": "all"
+                },
+                {
+                  "key": "search",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Approved services across the module the vendor can clone via 'Use This Service Info'."
+          },
+          "response": []
+        },
+        {
+          "name": "Gallery Service Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "vendorType",
+                "value": "{{vendor_type}}"
+              },
+              {
+                "key": "moduleId",
+                "value": "{{module_id}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/vendor/service/gallery/details/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "vendor",
+                "service",
+                "gallery",
+                "details",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Bulk",
+      "item": [
+        {
+          "name": "Bulk Import",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "vendorType",
+                "value": "{{vendor_type}}"
+              },
+              {
+                "key": "moduleId",
+                "value": "{{module_id}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "services_file",
+                  "type": "file",
+                  "src": [],
+                  "description": "xlsx with columns: Name, CategoryId, SubCategoryId, BasePrice, Description, Variations (JSON), Tags (csv), Image, Status"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/vendor/service/bulk-import",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "vendor",
+                "service",
+                "bulk-import"
+              ]
+            },
+            "description": "Imports services into the vendor's store. Fails fast with the offending row number on a bad row."
+          },
+          "response": []
+        },
+        {
+          "name": "Bulk Export",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "vendorType",
+                "value": "{{vendor_type}}"
+              },
+              {
+                "key": "moduleId",
+                "value": "{{module_id}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/vendor/service/bulk-export?type=date_wise&from_date=2024-01-01&to_date=2026-12-31",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "vendor",
+                "service",
+                "bulk-export"
+              ],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "date_wise",
+                  "description": "date_wise | id_wise"
+                },
+                {
+                  "key": "from_date",
+                  "value": "2024-01-01",
+                  "description": "required if type=date_wise"
+                },
+                {
+                  "key": "to_date",
+                  "value": "2026-12-31",
+                  "description": "required if type=date_wise"
+                },
+                {
+                  "key": "start_id",
+                  "value": "",
+                  "description": "required if type=id_wise",
+                  "disabled": true
+                },
+                {
+                  "key": "end_id",
+                  "value": "",
+                  "description": "required if type=id_wise",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Streams Services.xlsx of the vendor's own services."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "AI Auto-fill",
+      "description": "Service AI auto-fill \u2014 the SAME shared controller used by the admin and vendor panels (ServiceAutoFillController). Requires `openai_config` enabled in admin. URLs under `/vendor/service/ai/*`.",
+      "item": [
+        {
+          "name": "Title",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "vendorType",
+                "value": "{{vendor_type}}"
+              },
+              {
+                "key": "moduleId",
+                "value": "{{module_id}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/vendor/service/ai/title?name=AC Repair Service&langCode=en",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "vendor",
+                "service",
+                "ai",
+                "title"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "AC Repair Service"
+                },
+                {
+                  "key": "langCode",
+                  "value": "en",
+                  "description": "optional target language code"
+                }
+              ]
+            },
+            "description": "AI-suggested service title."
+          },
+          "response": []
+        },
+        {
+          "name": "Description",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "vendorType",
+                "value": "{{vendor_type}}"
+              },
+              {
+                "key": "moduleId",
+                "value": "{{module_id}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/vendor/service/ai/description?name=AC Repair Service&langCode=en",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "vendor",
+                "service",
+                "ai",
+                "description"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "AC Repair Service"
+                },
+                {
+                  "key": "langCode",
+                  "value": "en"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "General Setup (category)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "vendorType",
+                "value": "{{vendor_type}}"
+              },
+              {
+                "key": "moduleId",
+                "value": "{{module_id}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/vendor/service/ai/general-setup?name=AC Repair Service&description=Professional AC repair",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "vendor",
+                "service",
+                "ai",
+                "general-setup"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "AC Repair Service"
+                },
+                {
+                  "key": "description",
+                  "value": "Professional AC repair"
+                }
+              ]
+            },
+            "description": "Returns { data: { category_id, category_name, sub_category_id, sub_category_name } }."
+          },
+          "response": []
+        },
+        {
+          "name": "Price & Variation",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "vendorType",
+                "value": "{{vendor_type}}"
+              },
+              {
+                "key": "moduleId",
+                "value": "{{module_id}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/vendor/service/ai/price-variation?name=AC Repair Service&description=Professional AC repair",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "vendor",
+                "service",
+                "ai",
+                "price-variation"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "AC Repair Service"
+                },
+                {
+                  "key": "description",
+                  "value": "Professional AC repair"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Tags",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "vendorType",
+                "value": "{{vendor_type}}"
+              },
+              {
+                "key": "moduleId",
+                "value": "{{module_id}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/vendor/service/ai/tags?name=AC Repair Service&description=Professional AC repair",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "vendor",
+                "service",
+                "ai",
+                "tags"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "AC Repair Service"
+                },
+                {
+                  "key": "description",
+                  "value": "Professional AC repair"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "SEO",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "vendorType",
+                "value": "{{vendor_type}}"
+              },
+              {
+                "key": "moduleId",
+                "value": "{{module_id}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/vendor/service/ai/seo?name=AC Repair Service&description=Professional AC repair",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "vendor",
+                "service",
+                "ai",
+                "seo"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "AC Repair Service"
+                },
+                {
+                  "key": "description",
+                  "value": "Professional AC repair"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Analyze Image",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "vendorType",
+                "value": "{{vendor_type}}"
+              },
+              {
+                "key": "moduleId",
+                "value": "{{module_id}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": [],
+                  "description": "jpg/png/gif, max 1MB"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/vendor/service/ai/analyze-image",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "vendor",
+                "service",
+                "ai",
+                "analyze-image"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Common (core)",
+      "description": "Shared vendor-app endpoints used by every module (NOT duplicated per-module). The module is taken from the `moduleId` header / token store.",
+      "item": [
+        {
+          "name": "Categories (main)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "vendorType",
+                "value": "{{vendor_type}}"
+              },
+              {
+                "key": "moduleId",
+                "value": "{{module_id}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{core_base}}/vendor/categories",
+              "host": [
+                "{{core_base}}"
+              ],
+              "path": [
+                "vendor",
+                "categories"
+              ]
+            },
+            "description": "Main categories for the current module (position 0)."
+          },
+          "response": []
+        },
+        {
+          "name": "Sub Categories (childes)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "vendorType",
+                "value": "{{vendor_type}}"
+              },
+              {
+                "key": "moduleId",
+                "value": "{{module_id}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{core_base}}/vendor/categories/childes/174",
+              "host": [
+                "{{core_base}}"
+              ],
+              "path": [
+                "vendor",
+                "categories",
+                "childes",
+                "174"
+              ]
+            },
+            "description": "Sub-categories of the given parent category id."
+          },
+          "response": []
+        },
+        {
+          "name": "Store Categories (My Category)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "vendorType",
+                "value": "{{vendor_type}}"
+              },
+              {
+                "key": "moduleId",
+                "value": "{{module_id}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{core_base}}/vendor/store-category/list?limit=50&offset=1",
+              "host": [
+                "{{core_base}}"
+              ],
+              "path": [
+                "vendor",
+                "store-category",
+                "list"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "50"
+                },
+                {
+                  "key": "offset",
+                  "value": "1"
+                }
+              ]
+            },
+            "description": "The vendor's own store (provider) categories, used for the Provider Category dropdown."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

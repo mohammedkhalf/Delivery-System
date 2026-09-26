@@ -1,0 +1,3418 @@
+{
+    "info": {
+        "name": "Service Module — API Reference",
+        "_postman_id": "service-module-api-ref",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": "All Service-module API endpoints (Customer, Vendor app, Vendor AI) generated from Modules/Service routes + Documentation/service-customer-config-api.md, Documentation/service-vendor-api.md, Documentation/service-vendor-catalog-api.md.\n\nVariables: base_url, token (vendor Bearer), module_id (Service module id), zone_id (JSON array), vendor_type (owner|employee)."
+    },
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://localhost"
+        },
+        {
+            "key": "token",
+            "value": ""
+        },
+        {
+            "key": "module_id",
+            "value": "13"
+        },
+        {
+            "key": "zone_id",
+            "value": "[1]"
+        },
+        {
+            "key": "vendor_type",
+            "value": "owner"
+        }
+    ],
+    "item": [
+        {
+            "name": "1. Customer APIs",
+            "item": [
+                {
+                    "name": "1.1 Health check",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/service/service-module/status",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "service",
+                                "service-module",
+                                "status"
+                            ]
+                        },
+                        "description": "No auth/headers."
+                    },
+                    "response": [
+                        {
+                            "name": "Example",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/service/service-module/status",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "service",
+                                        "service-module",
+                                        "status"
+                                    ]
+                                },
+                                "description": "No auth/headers."
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"module\": \"Service\",\n  \"status\": \"ok\"\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "1.2 Latest services",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "zoneId",
+                                "value": "{{zone_id}}"
+                            },
+                            {
+                                "key": "X-localization",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/service/latest?limit=10&offset=1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "service",
+                                "latest"
+                            ],
+                            "query": [
+                                {
+                                    "key": "limit",
+                                    "value": "10"
+                                },
+                                {
+                                    "key": "offset",
+                                    "value": "1"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "Example",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "moduleId",
+                                        "value": "{{module_id}}"
+                                    },
+                                    {
+                                        "key": "zoneId",
+                                        "value": "{{zone_id}}"
+                                    },
+                                    {
+                                        "key": "X-localization",
+                                        "value": "en"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/service/latest?limit=10&offset=1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "service",
+                                        "latest"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "limit",
+                                            "value": "10"
+                                        },
+                                        {
+                                            "key": "offset",
+                                            "value": "1"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"total_size\": 42,\n  \"limit\": 10,\n  \"offset\": 1,\n  \"services\": [\n    {\n      \"id\": 1,\n      \"name\": \"Cooling System Care Service\",\n      \"slug\": \"cooling-system-care-service\",\n      \"short_description\": \"\\u2026\",\n      \"long_description\": \"\\u2026\",\n      \"thumbnail_full_url\": \"https://\\u2026\",\n      \"additional_images_full_url\": [],\n      \"base_price\": 150.0,\n      \"discount\": 0.0,\n      \"discount_type\": \"percent\",\n      \"variations\": [\n        {\n          \"name\": \"Basic\",\n          \"price\": 150,\n          \"discount\": 0,\n          \"discount_type\": \"percent\"\n        }\n      ],\n      \"tags\": [\n        \"ac\",\n        \"cooling\"\n      ],\n      \"recommended\": 0,\n      \"is_approved\": 1,\n      \"status\": 1,\n      \"order_count\": 0,\n      \"avg_rating\": 0.0,\n      \"rating_count\": 0,\n      \"module_id\": 13,\n      \"store_id\": 196,\n      \"store_name\": \"\\u2026\",\n      \"category_id\": 5,\n      \"sub_category_id\": null,\n      \"store_category_id\": null,\n      \"category\": {\n        \"id\": 5,\n        \"name\": \"\\u2026\",\n        \"slug\": \"\\u2026\"\n      },\n      \"sub_category\": null,\n      \"store_category\": null,\n      \"created_at\": \"\\u2026\",\n      \"updated_at\": \"\\u2026\"\n    }\n  ]\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "1.3 Popular services",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "zoneId",
+                                "value": "{{zone_id}}"
+                            },
+                            {
+                                "key": "X-localization",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/service/popular?limit=10&offset=1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "service",
+                                "popular"
+                            ],
+                            "query": [
+                                {
+                                    "key": "limit",
+                                    "value": "10"
+                                },
+                                {
+                                    "key": "offset",
+                                    "value": "1"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "Example",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "moduleId",
+                                        "value": "{{module_id}}"
+                                    },
+                                    {
+                                        "key": "zoneId",
+                                        "value": "{{zone_id}}"
+                                    },
+                                    {
+                                        "key": "X-localization",
+                                        "value": "en"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/service/popular?limit=10&offset=1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "service",
+                                        "popular"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "limit",
+                                            "value": "10"
+                                        },
+                                        {
+                                            "key": "offset",
+                                            "value": "1"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"total_size\": 42,\n  \"limit\": 10,\n  \"offset\": 1,\n  \"services\": [\n    {\n      \"id\": 1,\n      \"name\": \"Cooling System Care Service\",\n      \"slug\": \"cooling-system-care-service\",\n      \"short_description\": \"\\u2026\",\n      \"long_description\": \"\\u2026\",\n      \"thumbnail_full_url\": \"https://\\u2026\",\n      \"additional_images_full_url\": [],\n      \"base_price\": 150.0,\n      \"discount\": 0.0,\n      \"discount_type\": \"percent\",\n      \"variations\": [\n        {\n          \"name\": \"Basic\",\n          \"price\": 150,\n          \"discount\": 0,\n          \"discount_type\": \"percent\"\n        }\n      ],\n      \"tags\": [\n        \"ac\",\n        \"cooling\"\n      ],\n      \"recommended\": 0,\n      \"is_approved\": 1,\n      \"status\": 1,\n      \"order_count\": 0,\n      \"avg_rating\": 0.0,\n      \"rating_count\": 0,\n      \"module_id\": 13,\n      \"store_id\": 196,\n      \"store_name\": \"\\u2026\",\n      \"category_id\": 5,\n      \"sub_category_id\": null,\n      \"store_category_id\": null,\n      \"category\": {\n        \"id\": 5,\n        \"name\": \"\\u2026\",\n        \"slug\": \"\\u2026\"\n      },\n      \"sub_category\": null,\n      \"store_category\": null,\n      \"created_at\": \"\\u2026\",\n      \"updated_at\": \"\\u2026\"\n    }\n  ]\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "1.4 Top-rated services",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "zoneId",
+                                "value": "{{zone_id}}"
+                            },
+                            {
+                                "key": "X-localization",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/service/top-rated?limit=10&offset=1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "service",
+                                "top-rated"
+                            ],
+                            "query": [
+                                {
+                                    "key": "limit",
+                                    "value": "10"
+                                },
+                                {
+                                    "key": "offset",
+                                    "value": "1"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "Example",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "moduleId",
+                                        "value": "{{module_id}}"
+                                    },
+                                    {
+                                        "key": "zoneId",
+                                        "value": "{{zone_id}}"
+                                    },
+                                    {
+                                        "key": "X-localization",
+                                        "value": "en"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/service/top-rated?limit=10&offset=1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "service",
+                                        "top-rated"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "limit",
+                                            "value": "10"
+                                        },
+                                        {
+                                            "key": "offset",
+                                            "value": "1"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"total_size\": 42,\n  \"limit\": 10,\n  \"offset\": 1,\n  \"services\": [\n    {\n      \"id\": 1,\n      \"name\": \"Cooling System Care Service\",\n      \"slug\": \"cooling-system-care-service\",\n      \"short_description\": \"\\u2026\",\n      \"long_description\": \"\\u2026\",\n      \"thumbnail_full_url\": \"https://\\u2026\",\n      \"additional_images_full_url\": [],\n      \"base_price\": 150.0,\n      \"discount\": 0.0,\n      \"discount_type\": \"percent\",\n      \"variations\": [\n        {\n          \"name\": \"Basic\",\n          \"price\": 150,\n          \"discount\": 0,\n          \"discount_type\": \"percent\"\n        }\n      ],\n      \"tags\": [\n        \"ac\",\n        \"cooling\"\n      ],\n      \"recommended\": 0,\n      \"is_approved\": 1,\n      \"status\": 1,\n      \"order_count\": 0,\n      \"avg_rating\": 0.0,\n      \"rating_count\": 0,\n      \"module_id\": 13,\n      \"store_id\": 196,\n      \"store_name\": \"\\u2026\",\n      \"category_id\": 5,\n      \"sub_category_id\": null,\n      \"store_category_id\": null,\n      \"category\": {\n        \"id\": 5,\n        \"name\": \"\\u2026\",\n        \"slug\": \"\\u2026\"\n      },\n      \"sub_category\": null,\n      \"store_category\": null,\n      \"created_at\": \"\\u2026\",\n      \"updated_at\": \"\\u2026\"\n    }\n  ]\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "1.5 Recommended services",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "zoneId",
+                                "value": "{{zone_id}}"
+                            },
+                            {
+                                "key": "X-localization",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/service/recommended?limit=10&offset=1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "service",
+                                "recommended"
+                            ],
+                            "query": [
+                                {
+                                    "key": "limit",
+                                    "value": "10"
+                                },
+                                {
+                                    "key": "offset",
+                                    "value": "1"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "Example",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "moduleId",
+                                        "value": "{{module_id}}"
+                                    },
+                                    {
+                                        "key": "zoneId",
+                                        "value": "{{zone_id}}"
+                                    },
+                                    {
+                                        "key": "X-localization",
+                                        "value": "en"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/service/recommended?limit=10&offset=1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "service",
+                                        "recommended"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "limit",
+                                            "value": "10"
+                                        },
+                                        {
+                                            "key": "offset",
+                                            "value": "1"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"total_size\": 42,\n  \"limit\": 10,\n  \"offset\": 1,\n  \"services\": [\n    {\n      \"id\": 1,\n      \"name\": \"Cooling System Care Service\",\n      \"slug\": \"cooling-system-care-service\",\n      \"short_description\": \"\\u2026\",\n      \"long_description\": \"\\u2026\",\n      \"thumbnail_full_url\": \"https://\\u2026\",\n      \"additional_images_full_url\": [],\n      \"base_price\": 150.0,\n      \"discount\": 0.0,\n      \"discount_type\": \"percent\",\n      \"variations\": [\n        {\n          \"name\": \"Basic\",\n          \"price\": 150,\n          \"discount\": 0,\n          \"discount_type\": \"percent\"\n        }\n      ],\n      \"tags\": [\n        \"ac\",\n        \"cooling\"\n      ],\n      \"recommended\": 0,\n      \"is_approved\": 1,\n      \"status\": 1,\n      \"order_count\": 0,\n      \"avg_rating\": 0.0,\n      \"rating_count\": 0,\n      \"module_id\": 13,\n      \"store_id\": 196,\n      \"store_name\": \"\\u2026\",\n      \"category_id\": 5,\n      \"sub_category_id\": null,\n      \"store_category_id\": null,\n      \"category\": {\n        \"id\": 5,\n        \"name\": \"\\u2026\",\n        \"slug\": \"\\u2026\"\n      },\n      \"sub_category\": null,\n      \"store_category\": null,\n      \"created_at\": \"\\u2026\",\n      \"updated_at\": \"\\u2026\"\n    }\n  ]\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "1.6 Search",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "zoneId",
+                                "value": "{{zone_id}}"
+                            },
+                            {
+                                "key": "X-localization",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/service/search?name=cleaning&limit=10&offset=1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "service",
+                                "search"
+                            ],
+                            "query": [
+                                {
+                                    "key": "name",
+                                    "value": "cleaning"
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "10"
+                                },
+                                {
+                                    "key": "offset",
+                                    "value": "1"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "Example",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "moduleId",
+                                        "value": "{{module_id}}"
+                                    },
+                                    {
+                                        "key": "zoneId",
+                                        "value": "{{zone_id}}"
+                                    },
+                                    {
+                                        "key": "X-localization",
+                                        "value": "en"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/service/search?name=cleaning&limit=10&offset=1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "service",
+                                        "search"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "name",
+                                            "value": "cleaning"
+                                        },
+                                        {
+                                            "key": "limit",
+                                            "value": "10"
+                                        },
+                                        {
+                                            "key": "offset",
+                                            "value": "1"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"total_size\": 42,\n  \"limit\": 10,\n  \"offset\": 1,\n  \"services\": [\n    {\n      \"id\": 1,\n      \"name\": \"Cooling System Care Service\",\n      \"slug\": \"cooling-system-care-service\",\n      \"short_description\": \"\\u2026\",\n      \"long_description\": \"\\u2026\",\n      \"thumbnail_full_url\": \"https://\\u2026\",\n      \"additional_images_full_url\": [],\n      \"base_price\": 150.0,\n      \"discount\": 0.0,\n      \"discount_type\": \"percent\",\n      \"variations\": [\n        {\n          \"name\": \"Basic\",\n          \"price\": 150,\n          \"discount\": 0,\n          \"discount_type\": \"percent\"\n        }\n      ],\n      \"tags\": [\n        \"ac\",\n        \"cooling\"\n      ],\n      \"recommended\": 0,\n      \"is_approved\": 1,\n      \"status\": 1,\n      \"order_count\": 0,\n      \"avg_rating\": 0.0,\n      \"rating_count\": 0,\n      \"module_id\": 13,\n      \"store_id\": 196,\n      \"store_name\": \"\\u2026\",\n      \"category_id\": 5,\n      \"sub_category_id\": null,\n      \"store_category_id\": null,\n      \"category\": {\n        \"id\": 5,\n        \"name\": \"\\u2026\",\n        \"slug\": \"\\u2026\"\n      },\n      \"sub_category\": null,\n      \"store_category\": null,\n      \"created_at\": \"\\u2026\",\n      \"updated_at\": \"\\u2026\"\n    }\n  ]\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "1.7 Search suggestion",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "zoneId",
+                                "value": "{{zone_id}}"
+                            },
+                            {
+                                "key": "X-localization",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/service/search-suggestion?name=clean&limit=10&offset=1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "service",
+                                "search-suggestion"
+                            ],
+                            "query": [
+                                {
+                                    "key": "name",
+                                    "value": "clean"
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "10"
+                                },
+                                {
+                                    "key": "offset",
+                                    "value": "1"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "Example",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "moduleId",
+                                        "value": "{{module_id}}"
+                                    },
+                                    {
+                                        "key": "zoneId",
+                                        "value": "{{zone_id}}"
+                                    },
+                                    {
+                                        "key": "X-localization",
+                                        "value": "en"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/service/search-suggestion?name=clean&limit=10&offset=1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "service",
+                                        "search-suggestion"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "name",
+                                            "value": "clean"
+                                        },
+                                        {
+                                            "key": "limit",
+                                            "value": "10"
+                                        },
+                                        {
+                                            "key": "offset",
+                                            "value": "1"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"total_size\": 42,\n  \"limit\": 10,\n  \"offset\": 1,\n  \"services\": [\n    {\n      \"id\": 1,\n      \"name\": \"Cooling System Care Service\",\n      \"slug\": \"cooling-system-care-service\",\n      \"short_description\": \"\\u2026\",\n      \"long_description\": \"\\u2026\",\n      \"thumbnail_full_url\": \"https://\\u2026\",\n      \"additional_images_full_url\": [],\n      \"base_price\": 150.0,\n      \"discount\": 0.0,\n      \"discount_type\": \"percent\",\n      \"variations\": [\n        {\n          \"name\": \"Basic\",\n          \"price\": 150,\n          \"discount\": 0,\n          \"discount_type\": \"percent\"\n        }\n      ],\n      \"tags\": [\n        \"ac\",\n        \"cooling\"\n      ],\n      \"recommended\": 0,\n      \"is_approved\": 1,\n      \"status\": 1,\n      \"order_count\": 0,\n      \"avg_rating\": 0.0,\n      \"rating_count\": 0,\n      \"module_id\": 13,\n      \"store_id\": 196,\n      \"store_name\": \"\\u2026\",\n      \"category_id\": 5,\n      \"sub_category_id\": null,\n      \"store_category_id\": null,\n      \"category\": {\n        \"id\": 5,\n        \"name\": \"\\u2026\",\n        \"slug\": \"\\u2026\"\n      },\n      \"sub_category\": null,\n      \"store_category\": null,\n      \"created_at\": \"\\u2026\",\n      \"updated_at\": \"\\u2026\"\n    }\n  ]\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "1.8 Service details",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "zoneId",
+                                "value": "{{zone_id}}"
+                            },
+                            {
+                                "key": "X-localization",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "latitude",
+                                "value": "23.81"
+                            },
+                            {
+                                "key": "longitude",
+                                "value": "90.41"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/service/details/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "service",
+                                "details",
+                                "1"
+                            ]
+                        },
+                        "description": "Path id = numeric id or slug."
+                    },
+                    "response": [
+                        {
+                            "name": "Example",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "moduleId",
+                                        "value": "{{module_id}}"
+                                    },
+                                    {
+                                        "key": "zoneId",
+                                        "value": "{{zone_id}}"
+                                    },
+                                    {
+                                        "key": "X-localization",
+                                        "value": "en"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "latitude",
+                                        "value": "23.81"
+                                    },
+                                    {
+                                        "key": "longitude",
+                                        "value": "90.41"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/service/details/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "service",
+                                        "details",
+                                        "1"
+                                    ]
+                                },
+                                "description": "Path id = numeric id or slug."
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"id\": 1,\n  \"name\": \"Cooling System Care Service\",\n  \"slug\": \"cooling-system-care-service\",\n  \"short_description\": \"\\u2026\",\n  \"long_description\": \"\\u2026\",\n  \"thumbnail_full_url\": \"https://\\u2026\",\n  \"additional_images_full_url\": [],\n  \"base_price\": 150.0,\n  \"discount\": 0.0,\n  \"discount_type\": \"percent\",\n  \"variations\": [\n    {\n      \"name\": \"Basic\",\n      \"price\": 150,\n      \"discount\": 0,\n      \"discount_type\": \"percent\"\n    }\n  ],\n  \"tags\": [\n    \"ac\",\n    \"cooling\"\n  ],\n  \"recommended\": 0,\n  \"is_approved\": 1,\n  \"status\": 1,\n  \"order_count\": 0,\n  \"avg_rating\": 0.0,\n  \"rating_count\": 0,\n  \"module_id\": 13,\n  \"store_id\": 196,\n  \"store_name\": \"\\u2026\",\n  \"category_id\": 5,\n  \"sub_category_id\": null,\n  \"store_category_id\": null,\n  \"category\": {\n    \"id\": 5,\n    \"name\": \"\\u2026\",\n    \"slug\": \"\\u2026\"\n  },\n  \"sub_category\": null,\n  \"store_category\": null,\n  \"created_at\": \"\\u2026\",\n  \"updated_at\": \"\\u2026\",\n  \"provider\": {\n    \"id\": 196,\n    \"name\": \"\\u2026\"\n  },\n  \"faqs\": [\n    {\n      \"id\": 9,\n      \"question\": \"\\u2026?\",\n      \"answer\": \"\\u2026\"\n    }\n  ]\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "1.9 Related services",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "zoneId",
+                                "value": "{{zone_id}}"
+                            },
+                            {
+                                "key": "X-localization",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/service/related/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "service",
+                                "related",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "Example",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "moduleId",
+                                        "value": "{{module_id}}"
+                                    },
+                                    {
+                                        "key": "zoneId",
+                                        "value": "{{zone_id}}"
+                                    },
+                                    {
+                                        "key": "X-localization",
+                                        "value": "en"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/service/related/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "service",
+                                        "related",
+                                        "1"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"Cooling System Care Service\",\n    \"slug\": \"cooling-system-care-service\",\n    \"short_description\": \"\\u2026\",\n    \"long_description\": \"\\u2026\",\n    \"thumbnail_full_url\": \"https://\\u2026\",\n    \"additional_images_full_url\": [],\n    \"base_price\": 150.0,\n    \"discount\": 0.0,\n    \"discount_type\": \"percent\",\n    \"variations\": [\n      {\n        \"name\": \"Basic\",\n        \"price\": 150,\n        \"discount\": 0,\n        \"discount_type\": \"percent\"\n      }\n    ],\n    \"tags\": [\n      \"ac\",\n      \"cooling\"\n    ],\n    \"recommended\": 0,\n    \"is_approved\": 1,\n    \"status\": 1,\n    \"order_count\": 0,\n    \"avg_rating\": 0.0,\n    \"rating_count\": 0,\n    \"module_id\": 13,\n    \"store_id\": 196,\n    \"store_name\": \"\\u2026\",\n    \"category_id\": 5,\n    \"sub_category_id\": null,\n    \"store_category_id\": null,\n    \"category\": {\n      \"id\": 5,\n      \"name\": \"\\u2026\",\n      \"slug\": \"\\u2026\"\n    },\n    \"sub_category\": null,\n    \"store_category\": null,\n    \"created_at\": \"\\u2026\",\n    \"updated_at\": \"\\u2026\"\n  }\n]"
+                        }
+                    ]
+                },
+                {
+                    "name": "1.10 Related provider services",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "zoneId",
+                                "value": "{{zone_id}}"
+                            },
+                            {
+                                "key": "X-localization",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/service/related-provider-services/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "service",
+                                "related-provider-services",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "Example",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "moduleId",
+                                        "value": "{{module_id}}"
+                                    },
+                                    {
+                                        "key": "zoneId",
+                                        "value": "{{zone_id}}"
+                                    },
+                                    {
+                                        "key": "X-localization",
+                                        "value": "en"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/service/related-provider-services/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "service",
+                                        "related-provider-services",
+                                        "1"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"Cooling System Care Service\",\n    \"slug\": \"cooling-system-care-service\",\n    \"short_description\": \"\\u2026\",\n    \"long_description\": \"\\u2026\",\n    \"thumbnail_full_url\": \"https://\\u2026\",\n    \"additional_images_full_url\": [],\n    \"base_price\": 150.0,\n    \"discount\": 0.0,\n    \"discount_type\": \"percent\",\n    \"variations\": [\n      {\n        \"name\": \"Basic\",\n        \"price\": 150,\n        \"discount\": 0,\n        \"discount_type\": \"percent\"\n      }\n    ],\n    \"tags\": [\n      \"ac\",\n      \"cooling\"\n    ],\n    \"recommended\": 0,\n    \"is_approved\": 1,\n    \"status\": 1,\n    \"order_count\": 0,\n    \"avg_rating\": 0.0,\n    \"rating_count\": 0,\n    \"module_id\": 13,\n    \"store_id\": 196,\n    \"store_name\": \"\\u2026\",\n    \"category_id\": 5,\n    \"sub_category_id\": null,\n    \"store_category_id\": null,\n    \"category\": {\n      \"id\": 5,\n      \"name\": \"\\u2026\",\n      \"slug\": \"\\u2026\"\n    },\n    \"sub_category\": null,\n    \"store_category\": null,\n    \"created_at\": \"\\u2026\",\n    \"updated_at\": \"\\u2026\"\n  }\n]"
+                        }
+                    ]
+                },
+                {
+                    "name": "1.11 Config (service booking settings)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "zoneId",
+                                "value": "{{zone_id}}"
+                            },
+                            {
+                                "key": "X-localization",
+                                "value": "en"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/config",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "config"
+                            ]
+                        },
+                        "description": "Core customer config endpoint (App\\Http\\Controllers\\Api\\V1\\ConfigController@configuration). When the Service addon is published the response carries a `service_module` object holding the booking business settings saved at admin/business-settings/service/booking. Only the `service_module` block is shown below; the full response also contains the base-system config keys."
+                    },
+                    "response": [
+                        {
+                            "name": "Example (service_module block)",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "moduleId",
+                                        "value": "{{module_id}}"
+                                    },
+                                    {
+                                        "key": "zoneId",
+                                        "value": "{{zone_id}}"
+                                    },
+                                    {
+                                        "key": "X-localization",
+                                        "value": "en"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/config",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "config"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"service_module\": {\n    \"instant_booking\": true,\n    \"repeat_booking\": false,\n    \"schedule_booking\": true,\n    \"schedule_time_restriction_status\": true,\n    \"schedule_time_restriction_value\": 2,\n    \"schedule_time_restriction_unit\": \"hours\",\n    \"bidding_system\": true,\n    \"see_other_providers_offers\": false,\n    \"post_validation_days\": 7,\n    \"otp_for_complete_service\": true,\n    \"complete_photo_evidence\": false\n  }\n}"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "2. Vendor (Provider App) APIs",
+            "item": [
+                {
+                    "name": "2.1 Service list",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "vendorType",
+                                "value": "{{vendor_type}}"
+                            },
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/vendor/service/list?limit=10&offset=1&status=active",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "vendor",
+                                "service",
+                                "list"
+                            ],
+                            "query": [
+                                {
+                                    "key": "limit",
+                                    "value": "10"
+                                },
+                                {
+                                    "key": "offset",
+                                    "value": "1"
+                                },
+                                {
+                                    "key": "status",
+                                    "value": "active"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "Example",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "vendorType",
+                                        "value": "{{vendor_type}}"
+                                    },
+                                    {
+                                        "key": "moduleId",
+                                        "value": "{{module_id}}"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/vendor/service/list?limit=10&offset=1&status=active",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "vendor",
+                                        "service",
+                                        "list"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "limit",
+                                            "value": "10"
+                                        },
+                                        {
+                                            "key": "offset",
+                                            "value": "1"
+                                        },
+                                        {
+                                            "key": "status",
+                                            "value": "active"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"total_size\": 42,\n  \"limit\": 10,\n  \"offset\": 1,\n  \"services\": [\n    {\n      \"id\": 1,\n      \"name\": \"Cooling System Care Service\",\n      \"slug\": \"cooling-system-care-service\",\n      \"short_description\": \"\\u2026\",\n      \"long_description\": \"\\u2026\",\n      \"thumbnail_full_url\": \"https://\\u2026\",\n      \"additional_images_full_url\": [],\n      \"base_price\": 150.0,\n      \"discount\": 0.0,\n      \"discount_type\": \"percent\",\n      \"variations\": [\n        {\n          \"name\": \"Basic\",\n          \"price\": 150,\n          \"discount\": 0,\n          \"discount_type\": \"percent\"\n        }\n      ],\n      \"tags\": [\n        \"ac\",\n        \"cooling\"\n      ],\n      \"recommended\": 0,\n      \"is_approved\": 1,\n      \"status\": 1,\n      \"order_count\": 0,\n      \"avg_rating\": 0.0,\n      \"rating_count\": 0,\n      \"module_id\": 13,\n      \"store_id\": 196,\n      \"store_name\": \"\\u2026\",\n      \"category_id\": 5,\n      \"sub_category_id\": null,\n      \"store_category_id\": null,\n      \"category\": {\n        \"id\": 5,\n        \"name\": \"\\u2026\",\n        \"slug\": \"\\u2026\"\n      },\n      \"sub_category\": null,\n      \"store_category\": null,\n      \"created_at\": \"\\u2026\",\n      \"updated_at\": \"\\u2026\"\n    }\n  ]\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "2.2 Service details (vendor)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "vendorType",
+                                "value": "{{vendor_type}}"
+                            },
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/vendor/service/details/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "vendor",
+                                "service",
+                                "details",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "Example",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "vendorType",
+                                        "value": "{{vendor_type}}"
+                                    },
+                                    {
+                                        "key": "moduleId",
+                                        "value": "{{module_id}}"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/vendor/service/details/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "vendor",
+                                        "service",
+                                        "details",
+                                        "1"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"id\": 1,\n  \"name\": \"Cooling System Care Service\",\n  \"slug\": \"cooling-system-care-service\",\n  \"short_description\": \"\\u2026\",\n  \"long_description\": \"\\u2026\",\n  \"thumbnail_full_url\": \"https://\\u2026\",\n  \"additional_images_full_url\": [],\n  \"base_price\": 150.0,\n  \"discount\": 0.0,\n  \"discount_type\": \"percent\",\n  \"variations\": [\n    {\n      \"name\": \"Basic\",\n      \"price\": 150,\n      \"discount\": 0,\n      \"discount_type\": \"percent\"\n    }\n  ],\n  \"tags\": [\n    \"ac\",\n    \"cooling\"\n  ],\n  \"recommended\": 0,\n  \"is_approved\": 1,\n  \"status\": 1,\n  \"order_count\": 0,\n  \"avg_rating\": 0.0,\n  \"rating_count\": 0,\n  \"module_id\": 13,\n  \"store_id\": 196,\n  \"store_name\": \"\\u2026\",\n  \"category_id\": 5,\n  \"sub_category_id\": null,\n  \"store_category_id\": null,\n  \"category\": {\n    \"id\": 5,\n    \"name\": \"\\u2026\",\n    \"slug\": \"\\u2026\"\n  },\n  \"sub_category\": null,\n  \"store_category\": null,\n  \"created_at\": \"\\u2026\",\n  \"updated_at\": \"\\u2026\",\n  \"translations\": {\n    \"en\": {\n      \"name\": \"\\u2026\"\n    }\n  },\n  \"seo\": {\n    \"title\": \"\\u2026\",\n    \"description\": \"\\u2026\"\n  }\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "2.3 Create service",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "vendorType",
+                                "value": "{{vendor_type}}"
+                            },
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/vendor/service/store",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "vendor",
+                                "service",
+                                "store"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "lang[]",
+                                    "value": "default",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "name[]",
+                                    "value": "AC Cleaning",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "short_description[]",
+                                    "value": "Full AC servicing",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "long_description[]",
+                                    "value": "Deep clean and gas refill",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "category_id",
+                                    "value": "5",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "sub_category_id",
+                                    "value": "",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "store_category_id",
+                                    "value": "",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "base_price",
+                                    "value": "1500",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "discount",
+                                    "value": "10",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "discount_type",
+                                    "value": "percent",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "variations",
+                                    "value": "[{\"name\":\"Basic\",\"price\":1500,\"discount\":0,\"discount_type\":\"percent\"}]",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "tags",
+                                    "value": "ac,cooling,cleaning",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "recommended",
+                                    "value": "0",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "image",
+                                    "type": "file",
+                                    "src": "/path/to/thumb.png"
+                                },
+                                {
+                                    "key": "item_images[]",
+                                    "type": "file",
+                                    "src": "/path/to/extra1.png"
+                                },
+                                {
+                                    "key": "meta_title",
+                                    "value": "",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "meta_description",
+                                    "value": "",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        "description": "multipart/form-data. name[0]/short_description[0] required. May enter approval (is_approved=0)."
+                    },
+                    "response": [
+                        {
+                            "name": "Example",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "vendorType",
+                                        "value": "{{vendor_type}}"
+                                    },
+                                    {
+                                        "key": "moduleId",
+                                        "value": "{{module_id}}"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/vendor/service/store",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "vendor",
+                                        "service",
+                                        "store"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "formdata",
+                                    "formdata": [
+                                        {
+                                            "key": "lang[]",
+                                            "value": "default",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "name[]",
+                                            "value": "AC Cleaning",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "short_description[]",
+                                            "value": "Full AC servicing",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "long_description[]",
+                                            "value": "Deep clean and gas refill",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "category_id",
+                                            "value": "5",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "sub_category_id",
+                                            "value": "",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "store_category_id",
+                                            "value": "",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "base_price",
+                                            "value": "1500",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "discount",
+                                            "value": "10",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "discount_type",
+                                            "value": "percent",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "variations",
+                                            "value": "[{\"name\":\"Basic\",\"price\":1500,\"discount\":0,\"discount_type\":\"percent\"}]",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "tags",
+                                            "value": "ac,cooling,cleaning",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "recommended",
+                                            "value": "0",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "image",
+                                            "type": "file",
+                                            "src": "/path/to/thumb.png"
+                                        },
+                                        {
+                                            "key": "item_images[]",
+                                            "type": "file",
+                                            "src": "/path/to/extra1.png"
+                                        },
+                                        {
+                                            "key": "meta_title",
+                                            "value": "",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "meta_description",
+                                            "value": "",
+                                            "type": "text"
+                                        }
+                                    ]
+                                },
+                                "description": "multipart/form-data. name[0]/short_description[0] required. May enter approval (is_approved=0)."
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"message\": \"Service added successfully\",\n  \"id\": 1,\n  \"is_approved\": 1\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "2.4 Update service",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "vendorType",
+                                "value": "{{vendor_type}}"
+                            },
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/vendor/service/update/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "vendor",
+                                "service",
+                                "update",
+                                "1"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "lang[]",
+                                    "value": "default",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "name[]",
+                                    "value": "AC Cleaning (Updated)",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "short_description[]",
+                                    "value": "Updated description",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "category_id",
+                                    "value": "5",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "base_price",
+                                    "value": "1600",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "removedImageKeys",
+                                    "value": "2026-01-01-abc.png",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "image",
+                                    "type": "file",
+                                    "src": "/path/to/thumb.png"
+                                }
+                            ]
+                        },
+                        "description": "multipart/form-data. image optional. May route to approval (approval_pending:true)."
+                    },
+                    "response": [
+                        {
+                            "name": "Example",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "vendorType",
+                                        "value": "{{vendor_type}}"
+                                    },
+                                    {
+                                        "key": "moduleId",
+                                        "value": "{{module_id}}"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/vendor/service/update/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "vendor",
+                                        "service",
+                                        "update",
+                                        "1"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "formdata",
+                                    "formdata": [
+                                        {
+                                            "key": "lang[]",
+                                            "value": "default",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "name[]",
+                                            "value": "AC Cleaning (Updated)",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "short_description[]",
+                                            "value": "Updated description",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "category_id",
+                                            "value": "5",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "base_price",
+                                            "value": "1600",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "removedImageKeys",
+                                            "value": "2026-01-01-abc.png",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "image",
+                                            "type": "file",
+                                            "src": "/path/to/thumb.png"
+                                        }
+                                    ]
+                                },
+                                "description": "multipart/form-data. image optional. May route to approval (approval_pending:true)."
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"message\": \"Service updated successfully\",\n  \"id\": 1\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "2.5 Toggle status",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "vendorType",
+                                "value": "{{vendor_type}}"
+                            },
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/vendor/service/status/1/0",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "vendor",
+                                "service",
+                                "status",
+                                "1",
+                                "0"
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "Example",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "vendorType",
+                                        "value": "{{vendor_type}}"
+                                    },
+                                    {
+                                        "key": "moduleId",
+                                        "value": "{{module_id}}"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/vendor/service/status/1/0",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "vendor",
+                                        "service",
+                                        "status",
+                                        "1",
+                                        "0"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"message\": \"Service status updated\"\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "2.6 Delete service",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "vendorType",
+                                "value": "{{vendor_type}}"
+                            },
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/vendor/service/delete/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "vendor",
+                                "service",
+                                "delete",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "Example",
+                            "originalRequest": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "vendorType",
+                                        "value": "{{vendor_type}}"
+                                    },
+                                    {
+                                        "key": "moduleId",
+                                        "value": "{{module_id}}"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/vendor/service/delete/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "vendor",
+                                        "service",
+                                        "delete",
+                                        "1"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"message\": \"Service removed successfully\"\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "2.7 Pending (approval) list",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "vendorType",
+                                "value": "{{vendor_type}}"
+                            },
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/vendor/service/pending-list?limit=10&offset=1&filter=pending",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "vendor",
+                                "service",
+                                "pending-list"
+                            ],
+                            "query": [
+                                {
+                                    "key": "limit",
+                                    "value": "10"
+                                },
+                                {
+                                    "key": "offset",
+                                    "value": "1"
+                                },
+                                {
+                                    "key": "filter",
+                                    "value": "pending"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "Example",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "vendorType",
+                                        "value": "{{vendor_type}}"
+                                    },
+                                    {
+                                        "key": "moduleId",
+                                        "value": "{{module_id}}"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/vendor/service/pending-list?limit=10&offset=1&filter=pending",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "vendor",
+                                        "service",
+                                        "pending-list"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "limit",
+                                            "value": "10"
+                                        },
+                                        {
+                                            "key": "offset",
+                                            "value": "1"
+                                        },
+                                        {
+                                            "key": "filter",
+                                            "value": "pending"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"total_size\": 1,\n  \"limit\": 10,\n  \"offset\": 1,\n  \"services\": [\n    {\n      \"id\": 3,\n      \"service_id\": 15,\n      \"name\": \"\\u2026\",\n      \"is_rejected\": 0,\n      \"status_label\": \"pending\"\n    }\n  ]\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "2.8 Delete pending item",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "vendorType",
+                                "value": "{{vendor_type}}"
+                            },
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/vendor/service/pending-delete/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "vendor",
+                                "service",
+                                "pending-delete",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "Example",
+                            "originalRequest": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "vendorType",
+                                        "value": "{{vendor_type}}"
+                                    },
+                                    {
+                                        "key": "moduleId",
+                                        "value": "{{module_id}}"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/vendor/service/pending-delete/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "vendor",
+                                        "service",
+                                        "pending-delete",
+                                        "1"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"message\": \"Service removed successfully\"\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "2.9 Gallery (module-wide approved)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "vendorType",
+                                "value": "{{vendor_type}}"
+                            },
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/vendor/service/gallery?limit=10&offset=1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "vendor",
+                                "service",
+                                "gallery"
+                            ],
+                            "query": [
+                                {
+                                    "key": "limit",
+                                    "value": "10"
+                                },
+                                {
+                                    "key": "offset",
+                                    "value": "1"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "Example",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "vendorType",
+                                        "value": "{{vendor_type}}"
+                                    },
+                                    {
+                                        "key": "moduleId",
+                                        "value": "{{module_id}}"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/vendor/service/gallery?limit=10&offset=1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "vendor",
+                                        "service",
+                                        "gallery"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "limit",
+                                            "value": "10"
+                                        },
+                                        {
+                                            "key": "offset",
+                                            "value": "1"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"total_size\": 42,\n  \"limit\": 10,\n  \"offset\": 1,\n  \"services\": [\n    {\n      \"id\": 1,\n      \"name\": \"Cooling System Care Service\",\n      \"slug\": \"cooling-system-care-service\",\n      \"short_description\": \"\\u2026\",\n      \"long_description\": \"\\u2026\",\n      \"thumbnail_full_url\": \"https://\\u2026\",\n      \"additional_images_full_url\": [],\n      \"base_price\": 150.0,\n      \"discount\": 0.0,\n      \"discount_type\": \"percent\",\n      \"variations\": [\n        {\n          \"name\": \"Basic\",\n          \"price\": 150,\n          \"discount\": 0,\n          \"discount_type\": \"percent\"\n        }\n      ],\n      \"tags\": [\n        \"ac\",\n        \"cooling\"\n      ],\n      \"recommended\": 0,\n      \"is_approved\": 1,\n      \"status\": 1,\n      \"order_count\": 0,\n      \"avg_rating\": 0.0,\n      \"rating_count\": 0,\n      \"module_id\": 13,\n      \"store_id\": 196,\n      \"store_name\": \"\\u2026\",\n      \"category_id\": 5,\n      \"sub_category_id\": null,\n      \"store_category_id\": null,\n      \"category\": {\n        \"id\": 5,\n        \"name\": \"\\u2026\",\n        \"slug\": \"\\u2026\"\n      },\n      \"sub_category\": null,\n      \"store_category\": null,\n      \"created_at\": \"\\u2026\",\n      \"updated_at\": \"\\u2026\"\n    }\n  ]\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "2.10 Gallery item details",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "vendorType",
+                                "value": "{{vendor_type}}"
+                            },
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/vendor/service/gallery/details/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "vendor",
+                                "service",
+                                "gallery",
+                                "details",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "Example",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "vendorType",
+                                        "value": "{{vendor_type}}"
+                                    },
+                                    {
+                                        "key": "moduleId",
+                                        "value": "{{module_id}}"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/vendor/service/gallery/details/1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "vendor",
+                                        "service",
+                                        "gallery",
+                                        "details",
+                                        "1"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"id\": 1,\n  \"name\": \"Cooling System Care Service\",\n  \"slug\": \"cooling-system-care-service\",\n  \"short_description\": \"\\u2026\",\n  \"long_description\": \"\\u2026\",\n  \"thumbnail_full_url\": \"https://\\u2026\",\n  \"additional_images_full_url\": [],\n  \"base_price\": 150.0,\n  \"discount\": 0.0,\n  \"discount_type\": \"percent\",\n  \"variations\": [\n    {\n      \"name\": \"Basic\",\n      \"price\": 150,\n      \"discount\": 0,\n      \"discount_type\": \"percent\"\n    }\n  ],\n  \"tags\": [\n    \"ac\",\n    \"cooling\"\n  ],\n  \"recommended\": 0,\n  \"is_approved\": 1,\n  \"status\": 1,\n  \"order_count\": 0,\n  \"avg_rating\": 0.0,\n  \"rating_count\": 0,\n  \"module_id\": 13,\n  \"store_id\": 196,\n  \"store_name\": \"\\u2026\",\n  \"category_id\": 5,\n  \"sub_category_id\": null,\n  \"store_category_id\": null,\n  \"category\": {\n    \"id\": 5,\n    \"name\": \"\\u2026\",\n    \"slug\": \"\\u2026\"\n  },\n  \"sub_category\": null,\n  \"store_category\": null,\n  \"created_at\": \"\\u2026\",\n  \"updated_at\": \"\\u2026\"\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "2.11 Bulk import",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "vendorType",
+                                "value": "{{vendor_type}}"
+                            },
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/vendor/service/bulk-import",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "vendor",
+                                "service",
+                                "bulk-import"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "services_file",
+                                    "type": "file",
+                                    "src": "/path/to/services.xlsx"
+                                }
+                            ]
+                        },
+                        "description": "xlsx, max 2048KB. Columns: Name, CategoryId, SubCategoryId, StoreCategoryId, BasePrice, Description, Variations(JSON), Tags(comma), Image, Status."
+                    },
+                    "response": [
+                        {
+                            "name": "Example",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "vendorType",
+                                        "value": "{{vendor_type}}"
+                                    },
+                                    {
+                                        "key": "moduleId",
+                                        "value": "{{module_id}}"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/vendor/service/bulk-import",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "vendor",
+                                        "service",
+                                        "bulk-import"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "formdata",
+                                    "formdata": [
+                                        {
+                                            "key": "services_file",
+                                            "type": "file",
+                                            "src": "/path/to/services.xlsx"
+                                        }
+                                    ]
+                                },
+                                "description": "xlsx, max 2048KB. Columns: Name, CategoryId, SubCategoryId, StoreCategoryId, BasePrice, Description, Variations(JSON), Tags(comma), Image, Status."
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"message\": \"Service imported successfully\",\n  \"count\": 3\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "2.12 Bulk export",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "vendorType",
+                                "value": "{{vendor_type}}"
+                            },
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/vendor/service/bulk-export?type=id_wise&start_id=1&end_id=100",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "vendor",
+                                "service",
+                                "bulk-export"
+                            ],
+                            "query": [
+                                {
+                                    "key": "type",
+                                    "value": "id_wise"
+                                },
+                                {
+                                    "key": "start_id",
+                                    "value": "1"
+                                },
+                                {
+                                    "key": "end_id",
+                                    "value": "100"
+                                }
+                            ]
+                        },
+                        "description": "Returns Services.xlsx download (binary). For date_wise use from_date,to_date."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "2.13 Store setup (get)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "vendorType",
+                                "value": "{{vendor_type}}"
+                            },
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/vendor/service/store-setup",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "vendor",
+                                "service",
+                                "store-setup"
+                            ]
+                        },
+                        "description": "Current provider store-setup values (booking types / service location / serviceman permission) plus each field's *_editable global-gate flag."
+                    }
+                },
+                {
+                    "name": "2.14 Store setup (update)",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "vendorType",
+                                "value": "{{vendor_type}}"
+                            },
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"instant_booking\": 1,\n    \"repeat_booking\": 0,\n    \"schedule_booking\": 1,\n    \"choose_service_location\": [\n        \"customer\",\n        \"provider\"\n    ],\n    \"serviceman_can_cancel_booking\": 0\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/vendor/service/store-setup",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "vendor",
+                                "service",
+                                "store-setup"
+                            ]
+                        },
+                        "description": "Persist provided, gate-enabled fields. Partial updates supported; provider dropped when service_at_provider_place off; at least one of instant/schedule kept on."
+                    }
+                }
+            ]
+        },
+        {
+            "name": "3. Vendor AI Auto-fill APIs",
+            "item": [
+                {
+                    "name": "3.1 Title",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "vendorType",
+                                "value": "{{vendor_type}}"
+                            },
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/vendor/service/ai/title?name=ac cleaning&langCode=en",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "vendor",
+                                "service",
+                                "ai",
+                                "title"
+                            ],
+                            "query": [
+                                {
+                                    "key": "name",
+                                    "value": "ac cleaning"
+                                },
+                                {
+                                    "key": "langCode",
+                                    "value": "en"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "Example",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "vendorType",
+                                        "value": "{{vendor_type}}"
+                                    },
+                                    {
+                                        "key": "moduleId",
+                                        "value": "{{module_id}}"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/vendor/service/ai/title?name=ac cleaning&langCode=en",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "vendor",
+                                        "service",
+                                        "ai",
+                                        "title"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "name",
+                                            "value": "ac cleaning"
+                                        },
+                                        {
+                                            "key": "langCode",
+                                            "value": "en"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"data\": {\n    \"title\": \"\\u2026\"\n  }\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "3.2 Description",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "vendorType",
+                                "value": "{{vendor_type}}"
+                            },
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/vendor/service/ai/description?name=ac cleaning",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "vendor",
+                                "service",
+                                "ai",
+                                "description"
+                            ],
+                            "query": [
+                                {
+                                    "key": "name",
+                                    "value": "ac cleaning"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "Example",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "vendorType",
+                                        "value": "{{vendor_type}}"
+                                    },
+                                    {
+                                        "key": "moduleId",
+                                        "value": "{{module_id}}"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/vendor/service/ai/description?name=ac cleaning",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "vendor",
+                                        "service",
+                                        "ai",
+                                        "description"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "name",
+                                            "value": "ac cleaning"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"data\": {\n    \"description\": \"\\u2026\"\n  }\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "3.3 SEO",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "vendorType",
+                                "value": "{{vendor_type}}"
+                            },
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/vendor/service/ai/seo?name=ac cleaning&description=deep clean",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "vendor",
+                                "service",
+                                "ai",
+                                "seo"
+                            ],
+                            "query": [
+                                {
+                                    "key": "name",
+                                    "value": "ac cleaning"
+                                },
+                                {
+                                    "key": "description",
+                                    "value": "deep clean"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "Example",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "vendorType",
+                                        "value": "{{vendor_type}}"
+                                    },
+                                    {
+                                        "key": "moduleId",
+                                        "value": "{{module_id}}"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/vendor/service/ai/seo?name=ac cleaning&description=deep clean",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "vendor",
+                                        "service",
+                                        "ai",
+                                        "seo"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "name",
+                                            "value": "ac cleaning"
+                                        },
+                                        {
+                                            "key": "description",
+                                            "value": "deep clean"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"data\": {\n    \"meta_title\": \"\\u2026\",\n    \"meta_description\": \"\\u2026\"\n  }\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "3.4 General setup (category suggestion)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "vendorType",
+                                "value": "{{vendor_type}}"
+                            },
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/vendor/service/ai/general-setup?name=ac cleaning&description=deep clean",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "vendor",
+                                "service",
+                                "ai",
+                                "general-setup"
+                            ],
+                            "query": [
+                                {
+                                    "key": "name",
+                                    "value": "ac cleaning"
+                                },
+                                {
+                                    "key": "description",
+                                    "value": "deep clean"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "Example",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "vendorType",
+                                        "value": "{{vendor_type}}"
+                                    },
+                                    {
+                                        "key": "moduleId",
+                                        "value": "{{module_id}}"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/vendor/service/ai/general-setup?name=ac cleaning&description=deep clean",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "vendor",
+                                        "service",
+                                        "ai",
+                                        "general-setup"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "name",
+                                            "value": "ac cleaning"
+                                        },
+                                        {
+                                            "key": "description",
+                                            "value": "deep clean"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"data\": {\n    \"category_id\": 5,\n    \"sub_category_id\": null\n  }\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "3.5 Price & variation suggestion",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "vendorType",
+                                "value": "{{vendor_type}}"
+                            },
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/vendor/service/ai/price-variation?name=ac cleaning",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "vendor",
+                                "service",
+                                "ai",
+                                "price-variation"
+                            ],
+                            "query": [
+                                {
+                                    "key": "name",
+                                    "value": "ac cleaning"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "Example",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "vendorType",
+                                        "value": "{{vendor_type}}"
+                                    },
+                                    {
+                                        "key": "moduleId",
+                                        "value": "{{module_id}}"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/vendor/service/ai/price-variation?name=ac cleaning",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "vendor",
+                                        "service",
+                                        "ai",
+                                        "price-variation"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "name",
+                                            "value": "ac cleaning"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"data\": {\n    \"base_price\": 1500,\n    \"min_bid_price\": null,\n    \"variations\": [\n      {\n        \"name\": \"Basic\",\n        \"price\": 1500\n      }\n    ]\n  }\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "3.6 Tags suggestion",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "vendorType",
+                                "value": "{{vendor_type}}"
+                            },
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/vendor/service/ai/tags?name=ac cleaning",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "vendor",
+                                "service",
+                                "ai",
+                                "tags"
+                            ],
+                            "query": [
+                                {
+                                    "key": "name",
+                                    "value": "ac cleaning"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "Example",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "vendorType",
+                                        "value": "{{vendor_type}}"
+                                    },
+                                    {
+                                        "key": "moduleId",
+                                        "value": "{{module_id}}"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/vendor/service/ai/tags?name=ac cleaning",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "vendor",
+                                        "service",
+                                        "ai",
+                                        "tags"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "name",
+                                            "value": "ac cleaning"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"data\": {\n    \"tags\": [\n      \"ac\",\n      \"cooling\",\n      \"repair\"\n    ]\n  }\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "3.7 Generate title suggestions",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "vendorType",
+                                "value": "{{vendor_type}}"
+                            },
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/vendor/service/ai/generate-title-suggestions",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "vendor",
+                                "service",
+                                "ai",
+                                "generate-title-suggestions"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "keywords",
+                                    "value": "ac, cooling, repair",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "Example",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "vendorType",
+                                        "value": "{{vendor_type}}"
+                                    },
+                                    {
+                                        "key": "moduleId",
+                                        "value": "{{module_id}}"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/vendor/service/ai/generate-title-suggestions",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "vendor",
+                                        "service",
+                                        "ai",
+                                        "generate-title-suggestions"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "formdata",
+                                    "formdata": [
+                                        {
+                                            "key": "keywords",
+                                            "value": "ac, cooling, repair",
+                                            "type": "text"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"data\": {\n    \"titles\": [\n      \"\\u2026\",\n      \"\\u2026\"\n    ]\n  }\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "3.8 Analyze image",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "vendorType",
+                                "value": "{{vendor_type}}"
+                            },
+                            {
+                                "key": "moduleId",
+                                "value": "{{module_id}}"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/vendor/service/ai/analyze-image",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "vendor",
+                                "service",
+                                "ai",
+                                "analyze-image"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "image",
+                                    "type": "file",
+                                    "src": "/path/to/service.jpg"
+                                }
+                            ]
+                        },
+                        "description": "multipart/form-data. image required (jpeg/png/jpg/gif, max 1024KB). Validation errors → 422."
+                    },
+                    "response": [
+                        {
+                            "name": "Example",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{token}}"
+                                    },
+                                    {
+                                        "key": "vendorType",
+                                        "value": "{{vendor_type}}"
+                                    },
+                                    {
+                                        "key": "moduleId",
+                                        "value": "{{module_id}}"
+                                    },
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/api/v1/vendor/service/ai/analyze-image",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "vendor",
+                                        "service",
+                                        "ai",
+                                        "analyze-image"
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "formdata",
+                                    "formdata": [
+                                        {
+                                            "key": "image",
+                                            "type": "file",
+                                            "src": "/path/to/service.jpg"
+                                        }
+                                    ]
+                                },
+                                "description": "multipart/form-data. image required (jpeg/png/jpg/gif, max 1024KB). Validation errors → 422."
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"data\": {\n    \"name\": \"\\u2026\",\n    \"description\": \"\\u2026\"\n  }\n}"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

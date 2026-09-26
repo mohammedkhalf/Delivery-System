@@ -1,0 +1,45 @@
+/node_modules
+/public/hot
+/public/storage
+/public/build
+/storage/*.key
+/vendor
+
+# Builder addon release zips produced by `npm run package:addon`
+/releases
+.env
+.env.backup
+.phpunit.result.cache
+docker-compose.override.yml
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+error_log
+/storage/tmp
+.DS_Store
+docker-local/
+/public/.well-known
+.idea/
+.vscode/
+.ddev/
+
+# Claude Code
+CLAUDE.md
+.claude/
+PROJECT_CONTEXT.md
+
+# Local IDE agent instructions
+AGENTS.md
+Modules/Builder/AGENTS.md
+Modules/Builder/resources/dist/build.zip
+
+
+# Local-only dummy data seeder + its tracking file
+database/seeders/DummyServiceSeeder.php
+storage/app/dummy-service-seed.json
+/Documentation/*
+/Modules/Service/Documentation/
+
+# Ignore all Markdown files
+*.md

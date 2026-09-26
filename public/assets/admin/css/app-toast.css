@@ -1,0 +1,125 @@
+/* Global toast notification - new_tostar(type, title, description) */
+.app-toast-container {
+    position: fixed;
+    top: 24px;
+    inset-inline-end: 24px;
+    z-index: 1080;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 440px;
+    max-width: calc(100% - 32px);
+    pointer-events: none;
+}
+
+.app-toast {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 16px 40px rgba(17, 24, 39, .14);
+    overflow: hidden;
+    pointer-events: auto;
+}
+
+.app-toast__track {
+    height: 5px;
+    width: 100%;
+}
+
+.app-toast__progress {
+    height: 100%;
+    width: 100%;
+}
+
+.app-toast__body {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px 18px;
+}
+
+.app-toast__icon {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+}
+
+.app-toast__content {
+    flex: 1;
+    min-width: 0;
+    align-self: center;
+}
+
+.app-toast__title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.app-toast__title + .app-toast__text {
+    margin-top: 3px;
+}
+
+.app-toast__text {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #6b7280;
+}
+
+.app-toast__close {
+    flex-shrink: 0;
+    border: 0;
+    background: transparent;
+    padding: 2px;
+    font-size: 16px;
+    line-height: 1;
+    color: #9ca3af;
+    cursor: pointer;
+}
+
+.app-toast__close:hover {
+    color: #4b5563;
+}
+
+.app-toast--success .app-toast__icon,
+.app-toast--success .app-toast__progress {
+    background: #04BB7B;
+}
+
+.app-toast--success .app-toast__track {
+    background: #D6F4E8;
+}
+
+.app-toast--info .app-toast__icon,
+.app-toast--info .app-toast__progress {
+    background: #3B82F6;
+}
+
+.app-toast--info .app-toast__track {
+    background: #DCE9FE;
+}
+
+.app-toast--warning .app-toast__icon,
+.app-toast--warning .app-toast__progress {
+    background: #F59E0B;
+}
+
+.app-toast--warning .app-toast__track {
+    background: #FDEFD2;
+}
+
+.app-toast--danger .app-toast__icon,
+.app-toast--danger .app-toast__progress {
+    background: #EF4444;
+}
+
+.app-toast--danger .app-toast__track {
+    background: #FBDDDD;
+}
