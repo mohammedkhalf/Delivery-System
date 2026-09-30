@@ -132,7 +132,7 @@
                 </div>
             </div>
             <div class="btn--container mt-3 justify-content-end">
-                <button id="reset_btn" type="reset" class="btn btn--reset">{{translate('messages.reset')}}</button>
+                <button id="reset_btn" type="button" class="btn btn--reset">{{translate('messages.reset')}}</button>
                 <button type="submit" class="btn btn--primary">{{translate('messages.Save_changes')}}</button>
             </div>
         </form>
@@ -156,6 +156,7 @@
     let lat_longs = new Array();
     let drawingPolyline = null;
     let drawingPolygon = null;
+    let existingZone = null;
     let polygonClosed = false;
     let lastpolygon = null;
     // Assigned inside initialize() — `google` isn't defined at parse time
@@ -224,6 +225,12 @@
             drawingPolyline.setMap(map);
             lastpolygon = drawingPolyline;
         }
+        if (existingZone) {
+            existingZone.setMap(null);
+            existingZone = null;
+        }
+        polygons.forEach(function (p) { p.setMap(null); });
+        polygons = [];
         polygonClosed = false;
         vertexMarkers.forEach(function (m) { m.map = null; });
         vertexMarkers = [];
@@ -354,8 +361,8 @@
             @endforeach
         ];
 
-        // Existing zone — shown read-only as a reference (blue).
-        let existingZone = new google.maps.Polygon({
+        // Existing zone — shown read-only as a reference (blue). Cleared by Reset.
+        existingZone = new google.maps.Polygon({
             map: map,
             paths: polygonCoords,
             editable: false,
@@ -492,9 +499,12 @@
         });
     });
 
-    $('#reset_btn').click(function(){
-        location.reload(true);
-    })
+    $('#reset_btn').on('click', function (e) {
+        e.preventDefault();
+        clearDrawing();
+        setDrawingMode(true);
+        toastr.info("{{ translate('Zone shape cleared. Draw a new area with at least 3 points, then save.') }}");
+    });
 
 </script>
 @endpush

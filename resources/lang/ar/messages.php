@@ -1,6 +1,4 @@
-<?php
-
-return array (
+<?php return array (
   'attributes' => 'السمات',
   'add_new_attribute' => 'إضافة سمة جديدة',
   'default' => 'الافتراضي',
@@ -14019,4 +14017,6 @@ Smartly or Earn. ' => 'دعنا ندير عملك بذكاء أو نكسب ال�
   'go_to_the_pinterest_tag_id_section_under_marketing_tools.' => 'انتقل إلى قسم معرف علامة pinterest ضمن أدوات التسويق.',
   'no_payment_gateway_found' => 'لم يتم العثور على بوابة الدفع',
   'Show each customer a more relevant order of items, stores, and categories.' => 'اعرض لكل عميل ترتيبًا أكثر صلة بالعناصر والمتاجر والفئات.',
+  'Deliver faster by reducing delivery time with an additional charge.' => 'Deliver faster by reducing delivery time with an additional charge.',
+  'Zone shape cleared. Draw a new area with at least 3 points, then save.' => 'Zone shape cleared. Draw a new area with at least 3 points, then save.',
 );

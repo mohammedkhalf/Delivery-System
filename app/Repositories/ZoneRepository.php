@@ -83,7 +83,16 @@ class ZoneRepository implements ZoneRepositoryInterface
 
     public function getWithCoordinateWhere(array $params): ?Model
     {
-        return $this->zone->withoutGlobalScopes()->selectRaw("*,ST_AsText(ST_Centroid(`coordinates`)) as center")->where($params)->first();
+        // ST_Centroid throws on invalid/degenerate polygons; fall back to envelope center.
+        return $this->zone->withoutGlobalScopes()
+            ->selectRaw("*, ST_AsText(
+                CASE
+                    WHEN ST_IsValid(`coordinates`) THEN ST_Centroid(`coordinates`)
+                    ELSE ST_Centroid(ST_Envelope(`coordinates`))
+                END
+            ) as center")
+            ->where($params)
+            ->first();
     }
 
     public function getExportList(Request $request): Collection

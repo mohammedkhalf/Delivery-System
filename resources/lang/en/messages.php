@@ -14034,4 +14034,6 @@ Smartly or Earn. ',
   'go_to_the_pinterest_tag_id_section_under_marketing_tools.' => 'Go to the pinterest tag id section under marketing tools.',
   'no_payment_gateway_found' => 'No payment gateway found',
   'Show each customer a more relevant order of items, stores, and categories.' => 'Show each customer a more relevant order of items, stores, and categories.',
+  'Personalized home page is available for the Grocery, Pharmacy, Food and Shop modules.' => 'Personalized home page is available for the Grocery, Pharmacy, Food and Shop modules.',
+  'Zone shape cleared. Draw a new area with at least 3 points, then save.' => 'Zone shape cleared. Draw a new area with at least 3 points, then save.',
 );

@@ -13,19 +13,8 @@ class ZoneService
 
     public function getAddData(Object $request, int|string $zoneId): array
     {
-        $value = $request['coordinates'];
+        $polygon = $this->buildPolygonFromCoordinates((string) $request['coordinates']);
 
-
-        foreach(explode('),(',trim($value,'()')) as $index=>$single_array){
-            if($index == 0)
-            {
-                $lastCord = explode(',',$single_array);
-            }
-            $coords = explode(',',$single_array);
-
-            $polygon[] = new Point($coords[0], $coords[1]);
-        }
-        $polygon[] = new Point($lastCord[0], $lastCord[1]);
         return [
             'name' => $request->name[array_search('default', $request->lang)],
             'display_name' => $request->display_name[array_search('default', $request->lang)],
@@ -41,18 +30,8 @@ class ZoneService
 
     public function getUpdateData(Object $request, int|string $zoneId): array
     {
-        $value = $request['coordinates'];
+        $polygon = $this->buildPolygonFromCoordinates((string) $request['coordinates']);
 
-        foreach(explode('),(',trim($value,'()')) as $index=>$single_array){
-            if($index == 0)
-            {
-                $lastCord = explode(',',$single_array);
-            }
-            $coords = explode(',',$single_array);
-
-            $polygon[] = new Point($coords[0], $coords[1]);
-        }
-        $polygon[] = new Point($lastCord[0], $lastCord[1]);
         return [
             'name' => $request->name[array_search('default', $request->lang)],
             'display_name' => $request->display_name[array_search('default', $request->lang)],
@@ -62,6 +41,48 @@ class ZoneService
             'rider_wise_topic' => 'zone_'.$zoneId.'_rider',
             'coordinates' => new Polygon([new LineString($polygon)]),
         ];
+    }
+
+    /**
+     * Parse "(lat, lng),(lat, lng),..." into Points and reject degenerate shapes.
+     *
+     * @return array<int, Point>
+     */
+    private function buildPolygonFromCoordinates(string $value): array
+    {
+        $polygon = [];
+        $lastCord = null;
+
+        foreach (explode('),(', trim($value, '()')) as $index => $single_array) {
+            $coords = array_map('trim', explode(',', $single_array));
+            if (count($coords) < 2 || ! is_numeric($coords[0]) || ! is_numeric($coords[1])) {
+                continue;
+            }
+            if ($index === 0) {
+                $lastCord = $coords;
+            }
+            $polygon[] = new Point((float) $coords[0], (float) $coords[1]);
+        }
+
+        if ($lastCord === null || count($polygon) < 3) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'coordinates' => [translate('Please draw a valid zone with at least 3 points on the map.')],
+            ]);
+        }
+
+        $unique = [];
+        foreach ($polygon as $point) {
+            $unique[round($point->latitude, 6).':'.round($point->longitude, 6)] = true;
+        }
+        if (count($unique) < 3) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'coordinates' => [translate('Please draw a valid zone area (not a line). Use at least 3 different points.')],
+            ]);
+        }
+
+        $polygon[] = new Point((float) $lastCord[0], (float) $lastCord[1]);
+
+        return $polygon;
     }
     public function getZoneModuleSetupData(Object $request): array
     {
